@@ -1,506 +1,330 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>공익신고·청렴부패 신고센터 | KMBRIDGE</title>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>신문고 · 민원·제보 접수</title>
+<style>
+  :root{
+    --ink:#11203b;        /* 진남색 본문 */
+    --ink-soft:#41506b;
+    --line:#d6dceb;
+    --field:#f4f6fb;
+    --paper:#ffffff;
+    --bg:#eef1f7;
+    --brand:#1d4e80;      /* 관청 블루 */
+    --brand-deep:#143a63;
+    --gold:#b08534;       /* 인장 골드 */
+    --ok-bg:#e7f3ec;
+    --ok-ink:#1f6b3b;
+    --err-bg:#fbecec;
+    --err-ink:#9b2c2c;
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    margin:0;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+    color:var(--ink);
+    background:var(--bg);
+    line-height:1.6;
+  }
+  /* 상단 띠 */
+  .topbar{
+    background:var(--brand-deep);
+    color:#cdd9ea;
+    font-size:12.5px;
+    letter-spacing:.02em;
+  }
+  .topbar .wrap{
+    max-width:760px;margin:0 auto;padding:7px 22px;
+    display:flex;justify-content:space-between;gap:12px;
+  }
+  .topbar a{color:#cdd9ea;text-decoration:none;}
 
-    body {
-      font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
-      background: #f5f6f8;
-      color: #222;
-    }
+  header.masthead{
+    background:var(--brand);
+    color:#fff;
+    border-bottom:3px solid var(--gold);
+  }
+  .masthead .wrap{
+    max-width:760px;margin:0 auto;padding:26px 22px;
+    display:flex;align-items:center;gap:18px;
+  }
+  .seal{
+    flex:0 0 auto;width:54px;height:54px;border-radius:50%;
+    border:2px solid var(--gold);
+    display:flex;align-items:center;justify-content:center;
+    font-size:24px;color:var(--gold);
+    background:rgba(255,255,255,.06);
+  }
+  .masthead h1{
+    margin:0;font-size:23px;font-weight:700;letter-spacing:.06em;
+  }
+  .masthead p{
+    margin:3px 0 0;font-size:13px;color:#d4deec;font-weight:400;letter-spacing:.02em;
+  }
 
-    /* 상단 헤더 */
-    .page-header {
-      background: #1a2c4e;
-      color: white;
-      padding: 48px 0 36px;
-      text-align: center;
-    }
-    .page-header h1 {
-      font-size: 28px;
-      font-weight: 700;
-      letter-spacing: -0.5px;
-    }
-    .page-header p {
-      margin-top: 10px;
-      font-size: 14px;
-      color: #b0bfd4;
-    }
+  main{max-width:760px;margin:0 auto;padding:28px 22px 60px;}
 
-    /* 탭 */
-    .tab-bar { display: none; }
-    .tab-bar a.active {
-      color: #1a2c4e;
-      font-weight: 700;
-      border-bottom: 3px solid #1a2c4e;
-    }
+  .notice{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-left:4px solid var(--gold);
+    padding:16px 18px;
+    font-size:13.5px;color:var(--ink-soft);
+    margin-bottom:26px;
+  }
+  .notice b{color:var(--ink);}
 
-    /* 본문 래퍼 */
-    .container {
-      max-width: 900px;
-      margin: 40px auto;
-      padding: 0 20px 80px;
-    }
+  .card{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:2px;
+    box-shadow:0 1px 0 rgba(20,40,80,.04);
+  }
+  .card .card-head{
+    padding:18px 24px;border-bottom:1px solid var(--line);
+  }
+  .card .card-head h2{
+    margin:0;font-size:16px;font-weight:700;letter-spacing:.02em;
+  }
+  .card .card-head span{
+    font-size:12.5px;color:var(--ink-soft);
+  }
+  form{padding:8px 24px 24px;}
 
-    /* 안내 박스 */
-    .info-box {
-      background: white;
-      border: 1px solid #dde2ea;
-      border-radius: 8px;
-      padding: 28px 32px;
-      margin-bottom: 32px;
-    }
-    .info-box p {
-      font-size: 14px;
-      color: #444;
-      line-height: 1.8;
-    }
+  .field{margin-top:20px;}
+  .field > label{
+    display:block;font-size:13.5px;font-weight:600;margin-bottom:7px;
+  }
+  .req{color:#c0392b;font-weight:700;margin-left:2px;}
+  .hint{font-size:12px;color:var(--ink-soft);font-weight:400;margin-left:6px;}
 
-    /* 4개 안내 카드 */
-    .info-cards {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
-      margin-bottom: 40px;
-    }
-    .info-card {
-      background: white;
-      border: 1px solid #dde2ea;
-      border-radius: 8px;
-      padding: 24px 16px;
-      text-align: center;
-    }
-    .info-card .icon {
-      font-size: 28px;
-      margin-bottom: 10px;
-    }
-    .info-card .num {
-      font-size: 12px;
-      color: #1a2c4e;
-      font-weight: 700;
-      margin-bottom: 6px;
-    }
-    .info-card .title {
-      font-size: 14px;
-      font-weight: 700;
-      margin-bottom: 8px;
-      color: #1a2c4e;
-    }
-    .info-card .desc {
-      font-size: 12px;
-      color: #666;
-      line-height: 1.6;
-    }
+  input[type=text],input[type=tel],input[type=email],select,textarea{
+    width:100%;padding:11px 13px;
+    border:1px solid var(--line);
+    background:var(--field);
+    border-radius:3px;
+    font-size:14.5px;color:var(--ink);
+    font-family:inherit;
+    transition:border-color .15s, background .15s;
+  }
+  input:focus,select:focus,textarea:focus{
+    outline:none;border-color:var(--brand);background:#fff;
+    box-shadow:0 0 0 3px rgba(29,78,128,.12);
+  }
+  textarea{min-height:160px;resize:vertical;}
+  select{appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8'><path d='M1 1l5 5 5-5' fill='none' stroke='%2341506b' stroke-width='1.6'/></svg>");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px;}
 
-    /* 신고 양식 */
-    .form-section {
-      background: white;
-      border: 1px solid #dde2ea;
-      border-radius: 8px;
-      padding: 36px 40px;
-    }
-    .form-section h2 {
-      font-size: 18px;
-      font-weight: 700;
-      color: #1a2c4e;
-      margin-bottom: 28px;
-      padding-bottom: 14px;
-      border-bottom: 2px solid #1a2c4e;
-    }
+  .anon-row{
+    margin-top:20px;padding:14px 16px;
+    background:var(--field);border:1px solid var(--line);border-radius:3px;
+    display:flex;align-items:flex-start;gap:11px;
+  }
+  .anon-row input{margin-top:3px;width:17px;height:17px;flex:0 0 auto;accent-color:var(--brand);}
+  .anon-row label{font-size:13.5px;cursor:pointer;}
+  .anon-row label small{display:block;color:var(--ink-soft);font-size:12px;margin-top:2px;}
 
-    .form-row {
-      display: flex;
-      margin-bottom: 20px;
-      align-items: flex-start;
-    }
-    .form-label {
-      width: 140px;
-      min-width: 140px;
-      font-size: 14px;
-      font-weight: 600;
-      color: #333;
-      padding-top: 10px;
-      line-height: 1.4;
-    }
-    .form-label .required {
-      color: #c0392b;
-      margin-left: 2px;
-    }
-    .form-control {
-      flex: 1;
-    }
-    .form-control input[type="text"],
-    .form-control input[type="email"],
-    .form-control select,
-    .form-control textarea {
-      width: 100%;
-      padding: 10px 14px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      font-size: 14px;
-      font-family: inherit;
-      color: #333;
-      background: #fff;
-      transition: border-color 0.2s;
-    }
-    .form-control input:focus,
-    .form-control select:focus,
-    .form-control textarea:focus {
-      outline: none;
-      border-color: #1a2c4e;
-    }
-    .form-control textarea {
-      resize: vertical;
-      min-height: 120px;
-    }
-    .form-control .hint {
-      font-size: 12px;
-      color: #888;
-      margin-top: 5px;
-    }
+  .agree-row{margin-top:18px;display:flex;align-items:flex-start;gap:10px;}
+  .agree-row input{margin-top:3px;width:16px;height:16px;flex:0 0 auto;accent-color:var(--brand);}
+  .agree-row label{font-size:12.5px;color:var(--ink-soft);}
 
-    /* 라디오/체크박스 그룹 */
-    .radio-group, .check-group {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      padding-top: 8px;
-    }
-    .radio-group label, .check-group label {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 14px;
-      cursor: pointer;
-    }
-    .radio-group input, .check-group input {
-      accent-color: #1a2c4e;
-    }
+  .actions{margin-top:24px;display:flex;gap:10px;align-items:center;}
+  button[type=submit]{
+    background:var(--brand);color:#fff;border:none;
+    padding:13px 30px;font-size:15px;font-weight:600;letter-spacing:.04em;
+    border-radius:3px;cursor:pointer;font-family:inherit;
+    transition:background .15s;
+  }
+  button[type=submit]:hover{background:var(--brand-deep);}
+  button[type=submit]:disabled{opacity:.6;cursor:default;}
+  .reset-btn{
+    background:none;border:none;color:var(--ink-soft);
+    font-size:13px;cursor:pointer;text-decoration:underline;font-family:inherit;
+  }
 
-    /* 익명 토글 */
-    .anon-toggle {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 10px 14px;
-      background: #f0f3f8;
-      border-radius: 5px;
-      margin-bottom: 12px;
-    }
-    .anon-toggle label {
-      font-size: 13px;
-      color: #444;
-      cursor: pointer;
-    }
-    .anon-toggle input {
-      accent-color: #1a2c4e;
-    }
-    .anon-info {
-      font-size: 12px;
-      color: #888;
-      background: #fafafa;
-      border: 1px dashed #ccc;
-      border-radius: 4px;
-      padding: 8px 12px;
-    }
+  .msg{margin-top:18px;padding:13px 16px;border-radius:3px;font-size:14px;display:none;}
+  .msg.show{display:block;}
+  .msg.ok{background:var(--ok-bg);color:var(--ok-ink);border:1px solid #bfe0cb;}
+  .msg.err{background:var(--err-bg);color:var(--err-ink);border:1px solid #ecc4c4;}
 
-    /* 개인정보 동의 */
-    .privacy-box {
-      background: #f8f9fb;
-      border: 1px solid #dde2ea;
-      border-radius: 5px;
-      padding: 16px;
-      font-size: 12px;
-      color: #555;
-      line-height: 1.8;
-      max-height: 130px;
-      overflow-y: auto;
-      margin-bottom: 10px;
-    }
-    .privacy-check {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 14px;
-      font-weight: 600;
-    }
-    .privacy-check input {
-      accent-color: #1a2c4e;
-      width: 16px;
-      height: 16px;
-    }
+  .hidden-field{display:none;}
 
-    /* 제출 버튼 */
-    .btn-submit {
-      display: block;
-      width: 100%;
-      margin-top: 32px;
-      padding: 16px;
-      background: #1a2c4e;
-      color: white;
-      font-size: 16px;
-      font-weight: 700;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      letter-spacing: 0.5px;
-      transition: background 0.2s;
-    }
-    .btn-submit:hover {
-      background: #243d6a;
-    }
+  footer{
+    max-width:760px;margin:0 auto;padding:0 22px 40px;
+    font-size:12px;color:var(--ink-soft);
+  }
+  footer .rule{height:1px;background:var(--line);margin-bottom:16px;}
 
-    /* 성공 메시지 */
-    .success-msg {
-      display: none;
-      text-align: center;
-      padding: 60px 20px;
-    }
-    .success-msg .check-icon {
-      font-size: 56px;
-      margin-bottom: 16px;
-    }
-    .success-msg h3 {
-      font-size: 20px;
-      color: #1a2c4e;
-      margin-bottom: 10px;
-    }
-    .success-msg p {
-      font-size: 14px;
-      color: #666;
-      line-height: 1.8;
-    }
-
-    @media (max-width: 700px) {
-      .info-cards { grid-template-columns: repeat(2, 1fr); }
-      .form-row { flex-direction: column; }
-      .form-label { width: 100%; padding-top: 0; margin-bottom: 6px; }
-      .form-section { padding: 24px 20px; }
-    }
-  </style>
+  @media (max-width:560px){
+    .masthead h1{font-size:19px;}
+    .seal{width:46px;height:46px;font-size:20px;}
+    form,.card .card-head{padding-left:16px;padding-right:16px;}
+  }
+</style>
 </head>
 <body>
 
-  <!-- 상단 헤더 -->
-  <div class="page-header">
-    <h1>공익신고·청렴부패 신고센터</h1>
-    <p>재단은 공정하고 투명한 조직 문화를 위해 직원비리 신고센터를 운영하고 있습니다.</p>
+<div class="topbar">
+  <div class="wrap">
+    <span>온라인 신문고</span>
+    <span>접수기간 · 365일 24시간</span>
+  </div>
+</div>
+
+<header class="masthead">
+  <div class="wrap">
+    <div class="seal">⚖</div>
+    <div>
+      <h1>신문고</h1>
+      <p>국민의 목소리를 듣는 민원·제보 접수창구</p>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="notice">
+    접수하신 내용은 <b>담당자만 열람</b>하며, 외부에 공개되지 않습니다.
+    사실에 근거하여 작성해 주시고, 처리 결과 안내가 필요한 경우 연락처를 남겨 주세요.
   </div>
 
-  <!-- 탭 -->
-  <div class="tab-bar">
-    <a href="#">윤리경영</a>
-    <a href="#" class="active">공익신고 접수</a>
+  <div class="card">
+    <div class="card-head">
+      <h2>민원·제보 접수서</h2>
+      <span><span class="req">*</span> 표시는 필수 입력 항목입니다.</span>
+    </div>
+
+    <form id="petitionForm">
+      <div class="field">
+        <label for="category">분류 <span class="req">*</span></label>
+        <select id="category" name="category" required>
+          <option value="" disabled selected>선택해 주세요</option>
+          <option>민원·고충</option>
+          <option>부패·비위 제보</option>
+          <option>정책 건의</option>
+          <option>칭찬·감사</option>
+          <option>기타</option>
+        </select>
+      </div>
+
+      <div class="anon-row">
+        <input type="checkbox" id="anon" name="anon">
+        <label for="anon">
+          익명으로 접수하기
+          <small>체크하면 이름·연락처를 입력하지 않습니다. 단, 처리 결과를 개별 안내받을 수 없습니다.</small>
+        </label>
+      </div>
+
+      <div id="idBlock">
+        <div class="field">
+          <label for="name">이름 <span class="req" id="nameReq">*</span></label>
+          <input type="text" id="name" name="name" autocomplete="name" placeholder="홍길동">
+        </div>
+        <div class="field">
+          <label for="contact">연락처 <span class="hint">(전화 또는 이메일)</span></label>
+          <input type="text" id="contact" name="contact" autocomplete="off" placeholder="010-0000-0000 또는 email@example.com">
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="title">제목 <span class="req">*</span></label>
+        <input type="text" id="title" name="title" maxlength="100" placeholder="제목을 입력해 주세요" required>
+      </div>
+
+      <div class="field">
+        <label for="message">내용 <span class="req">*</span></label>
+        <textarea id="message" name="message" placeholder="육하원칙(누가·언제·어디서·무엇을·어떻게·왜)에 따라 구체적으로 작성해 주세요." required></textarea>
+      </div>
+
+      <div class="agree-row">
+        <input type="checkbox" id="agree" name="agree" required>
+        <label for="agree">개인정보 수집·이용 및 접수 내용 처리에 동의합니다. (필수)</label>
+      </div>
+
+      <div class="actions">
+        <button type="submit" id="submitBtn">접수하기</button>
+        <button type="reset" class="reset-btn">다시 작성</button>
+      </div>
+
+      <div class="msg" id="resultMsg"></div>
+    </form>
   </div>
+</main>
 
-  <div class="container">
+<footer>
+  <div class="rule"></div>
+  본 창구는 접수 전용이며, 제출 내용은 관리자 스프레드시트에 안전하게 저장됩니다.
+</footer>
 
-    <!-- 상단 안내문 -->
-    <div class="info-box">
-      <p>
-        재단은 공익 침해, 부패, 불공정 행위 및 비윤리적 행위 근절을 위해 신고센터를 운영하고 있습니다.<br>
-        공익 침해 행위, 부패 및 공정·투명관 관련 사안을 아래의 방법으로 신고하실 수 있으며,
-        신고 내용은 철저히 비밀로 보호됩니다.
-      </p>
-    </div>
+<script>
+  // ── 설정 ─────────────────────────────────────────────
+  // Google Apps Script 웹앱 배포 후 받은 URL을 아래에 붙여넣으세요.
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzQx3sozL_1j6HrQOrPWvrNprnsFCR4UAq2Nhg_D8_4cUHhKUDnp46w9FDVoWmTJgtpJQ/exec";
+  // ────────────────────────────────────────────────────
 
-    <!-- 4개 안내 카드 -->
-    <div class="info-cards">
-      <div class="info-card">
-        <div class="icon">👤</div>
-        <div class="num">1) 신고대상</div>
-        <div class="desc">부패행위, 금품·향응 수수, 부당지시, 예산의 부적절 사용, 갑질 및 비윤리 행위</div>
-      </div>
-      <div class="info-card">
-        <div class="icon">✉️</div>
-        <div class="num">2) 신고방법</div>
-        <div class="desc">온라인 접수, 이메일, 우편, 방문 신청</div>
-      </div>
-      <div class="info-card">
-        <div class="icon">📋</div>
-        <div class="num">3) 처리절차</div>
-        <div class="desc">신고접수 → 내용검토 → 사실확인 → 조치 및 결과안내</div>
-      </div>
-      <div class="info-card">
-        <div class="icon">🔒</div>
-        <div class="num">4) 신고자 보호</div>
-        <div class="desc">신고자의 신원과 신고내용은 관련 규정에 따라 비밀이 보호됩니다.</div>
-      </div>
-    </div>
+  const form     = document.getElementById('petitionForm');
+  const anon      = document.getElementById('anon');
+  const idBlock   = document.getElementById('idBlock');
+  const nameInput = document.getElementById('name');
+  const nameReq   = document.getElementById('nameReq');
+  const submitBtn = document.getElementById('submitBtn');
+  const resultMsg = document.getElementById('resultMsg');
 
-    <!-- 신고 양식 -->
-    <div class="form-section" id="form-section">
-      <h2>신고 접수 양식</h2>
-
-      <form id="report-form" action="https://formspree.io/f/mvznrkyn" method="POST">
-
-        <!-- 숨김 필드: 스팸 방지 -->
-        <input type="hidden" name="_subject" value="[KMBRIDGE] 직원비리 신고 접수" />
-        <input type="text" name="_gotcha" style="display:none" />
-
-        <!-- 신고 유형 -->
-        <div class="form-row">
-          <div class="form-label">신고 유형 <span class="required">*</span></div>
-          <div class="form-control">
-            <div class="radio-group">
-              <label><input type="radio" name="신고유형" value="부패·금품수수" required /> 부패·금품수수</label>
-              <label><input type="radio" name="신고유형" value="부당지시·갑질" /> 부당지시·갑질</label>
-              <label><input type="radio" name="신고유형" value="예산 부적절 사용" /> 예산 부적절 사용</label>
-              <label><input type="radio" name="신고유형" value="비윤리적 행위" /> 비윤리적 행위</label>
-              <label><input type="radio" name="신고유형" value="기타" /> 기타</label>
-            </div>
-          </div>
-        </div>
-
-        <!-- 신고 내용 -->
-        <div class="form-row">
-          <div class="form-label">신고 내용 <span class="required">*</span></div>
-          <div class="form-control">
-            <textarea name="신고내용" placeholder="신고하실 내용을 구체적으로 작성해 주세요. (육하원칙에 따라 작성하시면 처리에 도움이 됩니다)" required></textarea>
-          </div>
-        </div>
-
-        <!-- 파악 경위 -->
-        <div class="form-row">
-          <div class="form-label">파악 경위 <span class="required">*</span></div>
-          <div class="form-control">
-            <div class="radio-group">
-              <label><input type="radio" name="파악경위" value="직접 목격" required /> 직접 목격</label>
-              <label><input type="radio" name="파악경위" value="전문(傳聞)" /> 전문(傳聞)</label>
-              <label><input type="radio" name="파악경위" value="문서·자료 확인" /> 문서·자료 확인</label>
-              <label><input type="radio" name="파악경위" value="기타" /> 기타</label>
-            </div>
-          </div>
-        </div>
-
-        <!-- 검증 방법 -->
-        <div class="form-row">
-          <div class="form-label">검증 방법</div>
-          <div class="form-control">
-            <div class="check-group">
-              <label><input type="checkbox" name="검증방법" value="증거자료 보유" /> 증거자료 보유</label>
-              <label><input type="checkbox" name="검증방법" value="증인 확보 가능" /> 증인 확보 가능</label>
-              <label><input type="checkbox" name="검증방법" value="관련 문서 존재" /> 관련 문서 존재</label>
-              <label><input type="checkbox" name="검증방법" value="없음" /> 없음</label>
-            </div>
-          </div>
-        </div>
-
-        <!-- 첨부파일 -->
-        <div class="form-row">
-          <div class="form-label">첨부파일</div>
-          <div class="form-control">
-            <input type="file" name="첨부파일" multiple accept=".pdf,.jpg,.jpeg,.png,.docx,.xlsx,.hwp" />
-            <div class="hint">※ PDF, 이미지, Word, 한글 파일 등 가능 (최대 10MB)</div>
-          </div>
-        </div>
-
-        <!-- 신고자 정보 -->
-        <div class="form-row">
-          <div class="form-label">신고자 정보</div>
-          <div class="form-control">
-            <div class="anon-toggle">
-              <input type="checkbox" id="anon-check" onchange="toggleAnon(this)" />
-              <label for="anon-check">익명으로 신고합니다 (신고자 정보를 제공하지 않습니다)</label>
-            </div>
-            <div id="reporter-fields">
-              <input type="text" name="신고자_성명" placeholder="성명 (선택)" style="margin-bottom:8px" />
-              <input type="text" name="신고자_소속" placeholder="소속 부서 (선택)" style="margin-bottom:8px" />
-              <input type="email" name="신고자_연락처" placeholder="이메일 또는 연락처 (답변 희망 시 입력)" />
-              <div class="hint">※ 입력하신 정보는 처리 결과 안내 목적으로만 사용되며 철저히 보호됩니다.</div>
-            </div>
-            <div id="anon-msg" class="anon-info" style="display:none">
-              익명으로 접수됩니다. 신고자 정보는 수집되지 않습니다.
-            </div>
-          </div>
-        </div>
-
-        <!-- 개인정보 수집 동의 -->
-        <div class="form-row">
-          <div class="form-label">개인정보<br>수집·이용 동의 <span class="required">*</span></div>
-          <div class="form-control">
-            <div class="privacy-box">
-              <strong>개인정보 수집·이용 안내</strong><br><br>
-              수집항목: 성명, 소속, 연락처 (익명 신고 시 미수집)<br>
-              수집목적: 신고 내용 처리 및 결과 안내<br>
-              보유기간: 신고 처리 완료 후 3년<br><br>
-              귀하는 개인정보 수집·이용에 대한 동의를 거부할 권리가 있으며,
-              동의를 거부하더라도 익명 신고는 가능합니다.
-              다만, 결과 안내를 받기 원하시는 경우 연락처 제공에 동의하셔야 합니다.<br><br>
-              본 재단은 수집된 개인정보를 「개인정보 보호법」에 따라 안전하게 관리합니다.
-            </div>
-            <label class="privacy-check">
-              <input type="checkbox" name="개인정보동의" value="동의함" required />
-              위 개인정보 수집·이용에 동의합니다. (필수)
-            </label>
-          </div>
-        </div>
-
-        <!-- 제출 버튼 -->
-        <button type="submit" class="btn-submit">신고 접수하기</button>
-
-      </form>
-
-      <!-- 완료 메시지 -->
-      <div class="success-msg" id="success-msg">
-        <div class="check-icon">✅</div>
-        <h3>신고가 접수되었습니다.</h3>
-        <p>
-          소중한 신고에 감사드립니다.<br>
-          접수된 내용은 철저히 검토하여 처리하겠습니다.<br>
-          연락처를 남기신 경우 결과를 안내해 드립니다.
-        </p>
-      </div>
-    </div>
-
-  </div>
-
-  <script>
-    function toggleAnon(checkbox) {
-      const fields = document.getElementById('reporter-fields');
-      const msg = document.getElementById('anon-msg');
-      if (checkbox.checked) {
-        fields.style.display = 'none';
-        msg.style.display = 'block';
-      } else {
-        fields.style.display = 'block';
-        msg.style.display = 'none';
-      }
+  // 익명 토글: 이름/연락처 영역 숨김 + 필수 해제
+  function syncAnon(){
+    if(anon.checked){
+      idBlock.classList.add('hidden-field');
+      nameInput.required = false;
+    }else{
+      idBlock.classList.remove('hidden-field');
+      nameInput.required = true;
     }
+  }
+  anon.addEventListener('change', syncAnon);
+  syncAnon();
 
-    document.getElementById('report-form').addEventListener('submit', async function(e) {
-      e.preventDefault();
-      const form = e.target;
-      const btn = form.querySelector('.btn-submit');
-      btn.textContent = '접수 중...';
-      btn.disabled = true;
+  function showMsg(text, type){
+    resultMsg.textContent = text;
+    resultMsg.className = 'msg show ' + type;
+  }
 
-      try {
-        const response = await fetch(form.action, {
-          method: 'POST',
-          body: new FormData(form),
-          headers: { 'Accept': 'application/json' }
-        });
+  form.addEventListener('submit', async (e)=>{
+    e.preventDefault();
+    resultMsg.className = 'msg';
 
-        if (response.ok) {
-          form.style.display = 'none';
-          document.getElementById('success-msg').style.display = 'block';
-        } else {
-          alert('접수 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.');
-          btn.textContent = '신고 접수하기';
-          btn.disabled = false;
-        }
-      } catch {
-        alert('네트워크 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.');
-        btn.textContent = '신고 접수하기';
-        btn.disabled = false;
-      }
-    });
-  </script>
+    const isAnon = anon.checked;
+    const payload = {
+      category: form.category.value,
+      anon:     isAnon ? '익명' : '실명',
+      name:     isAnon ? '' : nameInput.value.trim(),
+      contact:  isAnon ? '' : form.contact.value.trim(),
+      title:    form.title.value.trim(),
+      message:  form.message.value.trim()
+    };
 
+    submitBtn.disabled = true;
+    submitBtn.textContent = '접수 중…';
+
+    try{
+      await fetch(SCRIPT_URL, {
+        method: 'POST',
+        // Apps Script 웹앱은 CORS 프리플라이트를 피하기 위해 no-cors + text/plain 사용
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(payload)
+      });
+      // no-cors 응답은 내용을 읽을 수 없으나, 전송은 정상 처리됨
+      showMsg('정상적으로 접수되었습니다. 소중한 의견 감사합니다.', 'ok');
+      form.reset();
+      syncAnon();
+    }catch(err){
+      showMsg('접수 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.', 'err');
+    }finally{
+      submitBtn.disabled = false;
+      submitBtn.textContent = '접수하기';
+    }
+  });
+</script>
 </body>
 </html>
