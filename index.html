@@ -180,48 +180,40 @@
   <div class="wrap">
     <img class="logo" src="logo.png" alt="K-Mobility 브릿지 재단 Bridge Foundation">
     <div class="titles">
-      <h1>제보·문의 접수창구</h1>
-      <p>재단에 전하고 싶은 의견을 안전하게 접수합니다</p>
+      <h1>자동차 부품업계 애로사항 접수</h1>
+      <p>현장의 어려움을 재단에 알려주세요. 함께 해결방안을 찾겠습니다.</p>
     </div>
   </div>
 </header>
 
 <main>
   <div class="notice">
-    접수하신 내용은 <b>재단 담당자만 열람</b>하며, 외부에 공개되지 않습니다.
-    사실에 근거하여 작성해 주시고, 처리 결과 안내가 필요한 경우 연락처를 남겨 주세요.
+    접수된 애로사항은 <b>재단 담당자가 검토</b>한 뒤 지원방안을 안내드립니다.
+    내용은 외부에 공개되지 않으니, 현장에서 겪고 계신 어려움을 편하게 작성해 주세요.
   </div>
 
   <div class="card">
     <div class="card-head">
-      <h2>제보·문의 접수서</h2>
+      <h2>애로사항 접수서</h2>
       <span><span class="req">*</span> 표시는 필수 입력 항목입니다.</span>
     </div>
 
     <form id="petitionForm">
-      <div class="field">
-        <label for="category">분류 <span class="req">*</span></label>
-        <select id="category" name="category" required>
-          <option value="" disabled selected>선택해 주세요</option>
-          <option>일반 문의</option>
-          <option>제보·신고</option>
-          <option>사업·정책 건의</option>
-          <option>칭찬·감사</option>
-          <option>기타</option>
-        </select>
-      </div>
-
       <div class="anon-row">
         <input type="checkbox" id="anon" name="anon">
         <label for="anon">
           익명으로 접수하기
-          <small>체크하면 이름·연락처를 입력하지 않습니다. 단, 처리 결과를 개별 안내받을 수 없습니다.</small>
+          <small>체크하면 회사명·담당자·연락처를 입력하지 않습니다. 단, 검토 결과를 개별 안내받을 수 없습니다.</small>
         </label>
       </div>
 
       <div id="idBlock">
         <div class="field">
-          <label for="name">이름 <span class="req" id="nameReq">*</span></label>
+          <label for="company">회사명 <span class="req" id="companyReq">*</span></label>
+          <input type="text" id="company" name="company" autocomplete="organization" placeholder="○○부품 주식회사">
+        </div>
+        <div class="field">
+          <label for="name">담당자명 <span class="req" id="nameReq">*</span></label>
           <input type="text" id="name" name="name" autocomplete="name" placeholder="홍길동">
         </div>
         <div class="field">
@@ -232,17 +224,17 @@
 
       <div class="field">
         <label for="title">제목 <span class="req">*</span></label>
-        <input type="text" id="title" name="title" maxlength="100" placeholder="제목을 입력해 주세요" required>
+        <input type="text" id="title" name="title" maxlength="100" placeholder="애로사항을 한 줄로 요약해 주세요" required>
       </div>
 
       <div class="field">
-        <label for="message">내용 <span class="req">*</span></label>
-        <textarea id="message" name="message" placeholder="육하원칙(누가·언제·어디서·무엇을·어떻게·왜)에 따라 구체적으로 작성해 주세요." required></textarea>
+        <label for="message">애로사항 내용 <span class="req">*</span></label>
+        <textarea id="message" name="message" placeholder="어떤 어려움을 겪고 계신지 구체적으로 작성해 주세요. (상황 · 발생 원인 · 필요한 지원 등)" required></textarea>
       </div>
 
       <div class="agree-row">
         <input type="checkbox" id="agree" name="agree" required>
-        <label for="agree">개인정보 수집·이용 및 접수 내용 처리에 동의합니다. (필수)</label>
+        <label for="agree">개인정보(회사·담당자 정보) 수집·이용 및 접수 내용 처리에 동의합니다. (필수)</label>
       </div>
 
       <div class="actions">
@@ -269,18 +261,20 @@
   const form     = document.getElementById('petitionForm');
   const anon      = document.getElementById('anon');
   const idBlock   = document.getElementById('idBlock');
+  const companyInput = document.getElementById('company');
   const nameInput = document.getElementById('name');
-  const nameReq   = document.getElementById('nameReq');
   const submitBtn = document.getElementById('submitBtn');
   const resultMsg = document.getElementById('resultMsg');
 
-  // 익명 토글: 이름/연락처 영역 숨김 + 필수 해제
+  // 익명 토글: 회사명/담당자/연락처 영역 숨김 + 필수 해제
   function syncAnon(){
     if(anon.checked){
       idBlock.classList.add('hidden-field');
+      companyInput.required = false;
       nameInput.required = false;
     }else{
       idBlock.classList.remove('hidden-field');
+      companyInput.required = true;
       nameInput.required = true;
     }
   }
@@ -298,8 +292,8 @@
 
     const isAnon = anon.checked;
     const payload = {
-      category: form.category.value,
       anon:     isAnon ? '익명' : '실명',
+      company:  isAnon ? '' : companyInput.value.trim(),
       name:     isAnon ? '' : nameInput.value.trim(),
       contact:  isAnon ? '' : form.contact.value.trim(),
       title:    form.title.value.trim(),
@@ -318,7 +312,7 @@
         body: JSON.stringify(payload)
       });
       // no-cors 응답은 내용을 읽을 수 없으나, 전송은 정상 처리됨
-      showMsg('정상적으로 접수되었습니다. 소중한 의견 감사합니다.', 'ok');
+      showMsg('애로사항이 정상적으로 접수되었습니다. 검토 후 안내드리겠습니다.', 'ok');
       form.reset();
       syncAnon();
     }catch(err){
