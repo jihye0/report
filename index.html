@@ -1,10 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>K-Mobility 브릿지 재단 · 애로사항 접수</title>
+<title>K-Mobility 브릿지 재단 · 협력사 접수 창구</title>
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
 <style>
   :root{
@@ -38,170 +37,160 @@
     -webkit-font-smoothing:antialiased;
   }
 
-  /* 상단 띠 */
-  .topbar{
-    background:var(--brand-deep);
-    color:#c3d3ea;
-    font-size:12px;
-    letter-spacing:.02em;
-  }
-  .topbar .wrap{
-    max-width:780px;margin:0 auto;padding:8px 24px;
-    display:flex;justify-content:space-between;gap:12px;
-  }
-
   /* 로고 헤더 */
   header.masthead{ background:#fff; border-bottom:1px solid var(--line); }
-  .masthead .wrap{
-    max-width:780px;margin:0 auto;padding:20px 24px;
-    display:flex;align-items:center;
-  }
+  .masthead .wrap{ max-width:880px;margin:0 auto;padding:20px 24px;display:flex;align-items:center; }
   .masthead img.logo{ height:52px;width:auto;display:block; }
 
   /* 히어로 */
-  .hero{
-    position:relative;overflow:hidden;
-    background:linear-gradient(135deg,#21528f 0%,#173b6c 60%,#122d54 100%);
-    color:#fff;
-  }
-  .hero .wrap{ max-width:780px;margin:0 auto;padding:40px 24px 56px;position:relative;z-index:2; }
-  .hero .eyebrow{
-    display:inline-block;font-size:12px;font-weight:600;letter-spacing:.14em;
-    color:#bcd2f0;text-transform:uppercase;margin:0 0 12px;
-    padding:5px 12px;border:1px solid rgba(255,255,255,.25);border-radius:999px;
-  }
-  .hero h1{ margin:0;font-size:30px;font-weight:800;letter-spacing:-.01em;line-height:1.3; }
-  .hero p{ margin:12px 0 0;font-size:15px;color:#d4e0f2;font-weight:400;max-width:30em; }
-  /* 다리(브릿지) 모티브 */
+  .hero{ position:relative;overflow:hidden;background:linear-gradient(135deg,#21528f 0%,#173b6c 60%,#122d54 100%);color:#fff; }
+  .hero .wrap{ max-width:880px;margin:0 auto;padding:40px 24px 56px;position:relative;z-index:2; }
+  .hero .eyebrow{ display:inline-block;font-size:12px;font-weight:600;letter-spacing:.14em;color:#bcd2f0;text-transform:uppercase;margin:0 0 12px;padding:5px 12px;border:1px solid rgba(255,255,255,.25);border-radius:999px; }
+  .hero h1{ margin:0;font-size:29px;font-weight:800;letter-spacing:-.01em;line-height:1.32; }
+  .hero p{ margin:14px 0 0;font-size:15px;color:#d4e0f2;font-weight:400;max-width:40em; }
+  .hero .principles{ margin:22px 0 0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:8px; }
+  .hero .principles li{ font-size:12.5px;color:#dbe6f6;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.16);padding:6px 12px;border-radius:8px; }
   .hero .bridge{ position:absolute;left:0;right:0;bottom:-1px;width:100%;height:64px;opacity:.5;z-index:1; }
 
-  main{max-width:780px;margin:0 auto;padding:0 24px;}
+  main{max-width:880px;margin:0 auto;padding:0 24px;}
 
-  .card{
-    background:var(--paper);
-    border:1px solid var(--line);
-    border-radius:var(--radius);
-    box-shadow:var(--shadow);
+  /* 접수 안내 */
+  .intro{
     margin-top:-32px;position:relative;z-index:3;
+    background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);
+    padding:24px 30px;
+  }
+  .intro .tag{font-size:12px;font-weight:700;letter-spacing:.08em;color:var(--brand-light);text-transform:uppercase;margin:0 0 6px;}
+  .intro h2{margin:0 0 14px;font-size:18px;font-weight:700;letter-spacing:-.01em;}
+  .intro .points{display:grid;gap:8px;}
+  .intro .points span{position:relative;padding-left:16px;font-size:13.5px;color:var(--ink-soft);}
+  .intro .points span::before{content:"";position:absolute;left:0;top:9px;width:5px;height:5px;border-radius:50%;background:var(--brand);}
+
+  /* 폼 카드 */
+  .form-card{
+    margin:22px 0 0;
+    background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);
     overflow:hidden;
   }
-  .card .card-head{
-    padding:24px 30px 20px;border-bottom:1px solid var(--line);
-    background:linear-gradient(180deg,#fbfcfe,#fff);
-  }
-  .card .card-head h2{
-    margin:0;font-size:18px;font-weight:700;letter-spacing:-.01em;
-    display:flex;align-items:center;gap:9px;
-  }
-  .card .card-head h2::before{
-    content:"";width:4px;height:18px;border-radius:2px;background:var(--brand);
-  }
-  .card .card-head > span{ display:block;margin-top:7px;font-size:12.5px;color:var(--ink-soft); }
-  form{padding:6px 30px 30px;}
+  .form-head{padding:24px 30px 20px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,#fbfcfe,#fff);}
+  .form-head .tag{font-size:12px;font-weight:700;letter-spacing:.08em;color:var(--brand-light);text-transform:uppercase;margin:0 0 6px;}
+  .form-head h2{margin:0;font-size:20px;font-weight:800;letter-spacing:-.01em;display:flex;align-items:center;gap:9px;}
+  .form-head h2::before{content:"";width:4px;height:20px;border-radius:2px;background:var(--brand);}
+  .form-head p{margin:8px 0 0;font-size:13px;color:var(--ink-soft);}
 
-  .notice{
-    margin:22px 0 4px;
-    background:#f3f7fc;
-    border:1px solid #dde8f5;
-    border-radius:10px;
-    padding:15px 17px;
-    font-size:13px;color:var(--ink-soft);line-height:1.6;
-  }
-  .notice b{color:var(--brand);}
+  .section{padding:26px 30px;border-top:1px solid var(--line);}
+  .section:first-of-type{border-top:none;}
+  .section-head{margin-bottom:16px;}
+  .section-head h3{margin:0;font-size:15.5px;font-weight:700;color:var(--brand-deep);letter-spacing:-.01em;}
+  .section-head p{margin:5px 0 0;font-size:12.5px;color:var(--ink-soft);}
 
-  .field{margin-top:20px;}
-  .field > label{
-    display:block;font-size:13.5px;font-weight:600;margin-bottom:8px;letter-spacing:-.01em;
-  }
   .req{color:#d0454a;font-weight:700;margin-left:2px;}
-  .hint{font-size:12px;color:var(--ink-soft);font-weight:400;margin-left:6px;}
+
+  /* 접수 유형 카드 */
+  .type-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .type-option{cursor:pointer;}
+  .type-option input{position:absolute;opacity:0;pointer-events:none;}
+  .type-card{
+    display:block;padding:16px 18px;border:1.5px solid var(--line);border-radius:12px;background:var(--field);
+    transition:border-color .15s, background .15s, box-shadow .15s;height:100%;
+  }
+  .type-card strong{display:block;font-size:15px;color:var(--ink);}
+  .type-card small{display:block;margin-top:6px;font-size:12.5px;color:var(--ink-soft);line-height:1.5;}
+  .type-option input:checked + .type-card{
+    border-color:var(--brand);background:#fff;box-shadow:0 0 0 4px rgba(31,78,140,.10);
+  }
+  .type-option input:focus-visible + .type-card{border-color:var(--brand);}
+
+  .mode-panel{margin-top:6px;}
+  .panel-head{margin-bottom:12px;}
+  .panel-head h4{margin:0;font-size:14px;font-weight:700;}
+  .panel-head p{margin:4px 0 0;font-size:12.5px;color:var(--ink-soft);}
+
+  .field-grid{display:grid;gap:18px;}
+  .field-grid.two-col{grid-template-columns:1fr 1fr;}
+  .field-grid.four-col{grid-template-columns:1fr 1fr;margin-top:18px;}
+
+  .field{margin:0;border:none;padding:0;min-width:0;}
+  .field > label,.field > legend{display:block;font-size:13.5px;font-weight:600;margin-bottom:8px;letter-spacing:-.01em;padding:0;}
 
   input[type=text],input[type=tel],input[type=email],select,textarea{
-    width:100%;padding:13px 15px;
-    border:1px solid var(--line);
-    background:var(--field);
-    border-radius:10px;
-    font-size:14.5px;color:var(--ink);
-    font-family:inherit;
+    width:100%;padding:13px 15px;border:1px solid var(--line);background:var(--field);
+    border-radius:10px;font-size:14.5px;color:var(--ink);font-family:inherit;
     transition:border-color .15s, background .15s, box-shadow .15s;
   }
   input::placeholder,textarea::placeholder{color:#9aa6bd;}
-  input:focus,select:focus,textarea:focus{
-    outline:none;border-color:var(--brand);background:#fff;
-    box-shadow:0 0 0 4px rgba(31,78,140,.12);
+  input:focus,select:focus,textarea:focus{outline:none;border-color:var(--brand);background:#fff;box-shadow:0 0 0 4px rgba(31,78,140,.12);}
+  select:disabled{background:#eef1f6;color:#9aa6bd;cursor:not-allowed;}
+  textarea{min-height:130px;resize:vertical;line-height:1.6;}
+  select{appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8'><path d='M1 1l5 5 5-5' fill='none' stroke='%235a6781' stroke-width='1.6'/></svg>");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px;}
+
+  /* 체크/라디오 그룹 */
+  .check-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  .check-grid label{display:flex;align-items:flex-start;gap:9px;font-size:13.5px;padding:11px 13px;border:1px solid var(--line);border-radius:10px;background:var(--field);cursor:pointer;transition:border-color .15s,background .15s;}
+  .check-grid label:hover{border-color:#c7d3e6;}
+  .check-grid input{margin-top:1px;width:17px;height:17px;flex:0 0 auto;accent-color:var(--brand);cursor:pointer;}
+  .choice-row{display:flex;flex-wrap:wrap;gap:8px;}
+  .choice-row label{display:inline-flex;align-items:center;gap:7px;font-size:13.5px;padding:9px 14px;border:1px solid var(--line);border-radius:9px;background:var(--field);cursor:pointer;transition:border-color .15s,background .15s;}
+  .choice-row label:hover{border-color:#c7d3e6;}
+  .choice-row input{width:16px;height:16px;accent-color:var(--brand);cursor:pointer;}
+
+  .hint-box{margin-bottom:10px;padding:11px 14px;background:#f3f7fc;border:1px solid #dde8f5;border-radius:9px;font-size:12.5px;color:var(--ink-soft);}
+  .input-meta{position:relative;}
+  .counter{display:block;text-align:right;font-size:11.5px;color:#9aa6bd;margin-top:6px;}
+
+  .contact-note{margin:14px 0 0;font-size:12px;color:var(--ink-soft);}
+
+  /* 동의 테이블 */
+  .consent-table{border:1px solid var(--line);border-radius:10px;overflow:hidden;font-size:12.5px;}
+  .consent-row{display:grid;grid-template-columns:1.4fr 1.8fr .8fr;}
+  .consent-row.header{background:var(--field);font-weight:700;color:var(--ink);}
+  .consent-row span{padding:11px 14px;border-bottom:1px solid var(--line);color:var(--ink-soft);}
+  .consent-row.header span{color:var(--ink);}
+  .consent-row:last-child span{border-bottom:none;}
+  .final-consent{display:flex;align-items:flex-start;gap:10px;margin-top:14px;font-size:13.5px;font-weight:600;cursor:pointer;}
+  .final-consent input{margin-top:2px;width:18px;height:18px;flex:0 0 auto;accent-color:var(--brand);cursor:pointer;}
+
+  /* 액션 */
+  .action-row{display:flex;gap:14px;align-items:center;justify-content:flex-end;padding:24px 30px 30px;border-top:1px solid var(--line);}
+  .primary-btn{
+    background:linear-gradient(135deg,#2358a0,#1a4078);color:#fff;border:none;
+    padding:14px 36px;font-size:15px;font-weight:700;border-radius:11px;cursor:pointer;font-family:inherit;
+    box-shadow:0 10px 22px -10px rgba(31,78,140,.6);transition:transform .12s, box-shadow .15s, filter .15s;
   }
-  textarea{min-height:168px;resize:vertical;line-height:1.6;}
+  .primary-btn:hover{filter:brightness(1.06);box-shadow:0 14px 26px -10px rgba(31,78,140,.7);}
+  .primary-btn:active{transform:translateY(1px);}
+  .primary-btn:disabled{opacity:.6;cursor:default;box-shadow:none;}
+  .secondary-btn{background:none;border:none;color:var(--ink-soft);font-size:13px;cursor:pointer;font-family:inherit;}
+  .secondary-btn:hover{color:var(--brand);text-decoration:underline;}
 
-  .anon-row{
-    margin-top:22px;padding:15px 17px;
-    background:var(--field);border:1px solid var(--line);border-radius:10px;
-    display:flex;align-items:flex-start;gap:12px;
-  }
-  .anon-row input{margin-top:2px;width:18px;height:18px;flex:0 0 auto;accent-color:var(--brand);cursor:pointer;}
-  .anon-row label{font-size:13.5px;cursor:pointer;font-weight:600;}
-  .anon-row label small{display:block;color:var(--ink-soft);font-size:12px;margin-top:3px;font-weight:400;}
+  .status-message{margin:0 30px 30px;padding:14px 17px;border-radius:10px;font-size:14px;display:none;font-weight:500;}
+  .status-message.show{display:block;}
+  .status-message.ok{background:var(--ok-bg);color:var(--ok-ink);border:1px solid #bfe0cb;}
+  .status-message.err{background:var(--err-bg);color:var(--err-ink);border:1px solid #ecc4c4;}
 
-  .privacy{
-    margin-top:24px;padding:16px 18px;
-    background:var(--field);border:1px solid var(--line);border-radius:10px;
-    font-size:12.5px;color:var(--ink-soft);
-  }
-  .privacy-title{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:10px;letter-spacing:-.01em;}
-  .privacy ul{margin:0;padding-left:0;list-style:none;}
-  .privacy li{position:relative;padding-left:13px;margin:5px 0;}
-  .privacy li::before{content:"";position:absolute;left:0;top:8px;width:4px;height:4px;border-radius:50%;background:var(--brand-light);}
-  .privacy li b{color:var(--ink);font-weight:600;}
-  .privacy p{margin:11px 0 0;padding-top:11px;border-top:1px solid var(--line);}
+  [hidden]{display:none !important;}
 
-  .agree-row{margin-top:18px;display:flex;align-items:flex-start;gap:10px;}
-  .agree-row input{margin-top:2px;width:17px;height:17px;flex:0 0 auto;accent-color:var(--brand);cursor:pointer;}
-  .agree-row label{font-size:12.5px;color:var(--ink-soft);}
-
-  .actions{margin-top:26px;display:flex;gap:14px;align-items:center;}
-  button[type=submit]{
-    background:linear-gradient(135deg,#2358a0,#1a4078);
-    color:#fff;border:none;
-    padding:14px 34px;font-size:15px;font-weight:700;letter-spacing:.01em;
-    border-radius:11px;cursor:pointer;font-family:inherit;
-    box-shadow:0 10px 22px -10px rgba(31,78,140,.6);
-    transition:transform .12s, box-shadow .15s, filter .15s;
-  }
-  button[type=submit]:hover{filter:brightness(1.06);box-shadow:0 14px 26px -10px rgba(31,78,140,.7);}
-  button[type=submit]:active{transform:translateY(1px);}
-  button[type=submit]:disabled{opacity:.6;cursor:default;box-shadow:none;}
-  .reset-btn{
-    background:none;border:none;color:var(--ink-soft);
-    font-size:13px;cursor:pointer;font-family:inherit;
-  }
-  .reset-btn:hover{color:var(--brand);text-decoration:underline;}
-
-  .msg{margin-top:20px;padding:14px 17px;border-radius:10px;font-size:14px;display:none;font-weight:500;}
-  .msg.show{display:block;}
-  .msg.ok{background:var(--ok-bg);color:var(--ok-ink);border:1px solid #bfe0cb;}
-  .msg.err{background:var(--err-bg);color:var(--err-ink);border:1px solid #ecc4c4;}
-
-  .hidden-field{display:none;}
-
-  footer{
-    max-width:780px;margin:0 auto;padding:30px 24px 48px;
-    font-size:12px;color:var(--ink-soft);text-align:center;
-  }
+  footer{max-width:880px;margin:0 auto;padding:30px 24px 48px;font-size:12px;color:var(--ink-soft);text-align:center;}
   footer .rule{height:1px;background:var(--line);margin-bottom:22px;}
   footer .foot-logo{height:38px;width:auto;opacity:.85;margin-bottom:12px;}
   footer p{margin:0;}
 
-  @media (max-width:560px){
+  @media (max-width:600px){
     .masthead .wrap{padding:16px;}
     .masthead img.logo{height:42px;}
     .hero .wrap{padding:30px 18px 48px;}
-    .hero h1{font-size:23px;}
-    .hero p{font-size:14px;}
+    .hero h1{font-size:22px;}
     main{padding:0 14px;}
-    form,.card .card-head{padding-left:18px;padding-right:18px;}
+    .intro,.form-head,.section,.action-row,.status-message{padding-left:18px;padding-right:18px;}
+    .status-message{margin-left:18px;margin-right:18px;}
+    .action-row{margin-left:0;margin-right:0;}
+    .type-grid,.field-grid.two-col,.field-grid.four-col,.check-grid{grid-template-columns:1fr;}
+    .consent-row{grid-template-columns:1fr;}
+    .consent-row span{border-bottom:1px solid var(--line);}
   }
 </style>
 </head>
-<body>
+<body id="top">
 
 <header class="masthead">
   <div class="wrap">
@@ -211,91 +200,255 @@
 
 <section class="hero">
   <div class="wrap">
-    <span class="eyebrow">Voice of the Industry</span>
-    <h1>자동차 부품업계 애로사항 접수</h1>
-    <p>현장에서 겪고 계신 어려움을 재단에 알려주세요. 업계의 목소리를 모아 재단 사업에 반영하겠습니다.</p>
+    <span class="eyebrow">Foundation Intake Desk</span>
+    <h1>협력사의 현장 목소리를<br>정돈된 데이터로 남깁니다.</h1>
+    <p>K-Mobility 브릿지 재단은 현장의 애로사항과 지원 요청을 분리해 접수하고, 축적된 내용을 재단 사업 검토의 기초 자료로 활용합니다.</p>
+    <ul class="principles">
+      <li>개별 민원 즉시 처리 창구가 아닙니다</li>
+      <li>반복되는 이슈일수록 검토 가치가 높습니다</li>
+      <li>애로사항과 지원 요청을 구분해 받습니다</li>
+    </ul>
   </div>
-  <svg class="bridge" viewBox="0 0 780 64" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    <path d="M0 56 H780" stroke="#ffffff" stroke-width="2" fill="none"/>
-    <path d="M0 56 Q195 6 390 56 T780 56" stroke="#ffffff" stroke-width="2" fill="none"/>
+  <svg class="bridge" viewBox="0 0 880 64" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M0 56 H880" stroke="#ffffff" stroke-width="2" fill="none"/>
+    <path d="M0 56 Q220 6 440 56 T880 56" stroke="#ffffff" stroke-width="2" fill="none"/>
     <g stroke="#ffffff" stroke-width="1.2">
-      <line x1="70" y1="36" x2="70" y2="56"/><line x1="140" y1="22" x2="140" y2="56"/>
-      <line x1="210" y1="16" x2="210" y2="56"/><line x1="280" y1="22" x2="280" y2="56"/>
-      <line x1="350" y1="36" x2="350" y2="56"/><line x1="430" y1="36" x2="430" y2="56"/>
-      <line x1="500" y1="22" x2="500" y2="56"/><line x1="570" y1="16" x2="570" y2="56"/>
-      <line x1="640" y1="22" x2="640" y2="56"/><line x1="710" y1="36" x2="710" y2="56"/>
+      <line x1="80" y1="36" x2="80" y2="56"/><line x1="160" y1="22" x2="160" y2="56"/>
+      <line x1="240" y1="16" x2="240" y2="56"/><line x1="320" y1="22" x2="320" y2="56"/>
+      <line x1="400" y1="36" x2="400" y2="56"/><line x1="480" y1="36" x2="480" y2="56"/>
+      <line x1="560" y1="22" x2="560" y2="56"/><line x1="640" y1="16" x2="640" y2="56"/>
+      <line x1="720" y1="22" x2="720" y2="56"/><line x1="800" y1="36" x2="800" y2="56"/>
     </g>
   </svg>
 </section>
 
 <main>
-  <div class="card">
-    <div class="card-head">
-      <h2>애로사항 접수서</h2>
-      <span><span class="req">*</span> 표시는 필수 입력 항목입니다.</span>
+  <section class="intro">
+    <p class="tag">접수 안내</p>
+    <h2>처음에 접수 유형을 먼저 선택해 주세요.</h2>
+    <div class="points">
+      <span>애로사항 접수 — 현재 겪는 부담과 문제를 기록합니다.</span>
+      <span>지원 요청 접수 — 필요한 지원 방향과 요구를 기록합니다.</span>
+      <span>구체적인 사례, 영향 범위, 반복 여부를 적을수록 좋습니다.</span>
+    </div>
+  </section>
+
+  <form id="intakeForm" class="form-card" novalidate>
+    <div class="form-head">
+      <p class="tag">접수 폼</p>
+      <h2>협력사 접수</h2>
+      <p>접수 유형에 따라 필요한 입력 항목만 보이도록 구성했습니다. <span class="req">*</span> 표시는 필수 항목입니다.</p>
     </div>
 
-    <div class="notice" style="margin:22px 30px 0;">
-      접수된 애로사항은 <b>재단 담당자가 검토</b>하여 재단 사업에 참고하며, 내용은 외부에 공개되지 않습니다.
-    </div>
-
-    <form id="petitionForm">
-      <div class="anon-row">
-        <input type="checkbox" id="anon" name="anon">
-        <label for="anon">
-          익명으로 접수하기
-          <small>체크하면 회사명·담당자·연락처를 입력하지 않습니다.</small>
+    <!-- 1. 접수 유형 -->
+    <section class="section">
+      <div class="section-head">
+        <h3>1. 접수 유형 선택</h3>
+        <p>무엇을 접수하시려는지 먼저 골라 주세요.</p>
+      </div>
+      <div class="type-grid">
+        <label class="type-option">
+          <input type="radio" name="requestType" value="애로사항 접수" checked>
+          <span class="type-card">
+            <strong>애로사항 접수</strong>
+            <small>경영·생산·인력·거래·규제 등 현재 겪는 부담을 남깁니다.</small>
+          </span>
+        </label>
+        <label class="type-option">
+          <input type="radio" name="requestType" value="지원 요청 접수">
+          <span class="type-card">
+            <strong>지원 요청 접수</strong>
+            <small>재단·유관기관에 바라는 지원 방향과 필요한 프로그램을 남깁니다.</small>
+          </span>
         </label>
       </div>
+    </section>
 
-      <div id="idBlock">
+    <!-- 2. 분류 -->
+    <section class="section">
+      <div class="section-head">
+        <h3>2. 접수 내용 분류</h3>
+        <p id="classDesc">현재 겪는 애로를 먼저 분류해 주세요.</p>
+      </div>
+
+      <div id="issueFields" class="mode-panel">
+        <div class="panel-head">
+          <h4>애로사항 분류</h4>
+          <p>무엇이 가장 큰 부담인지 선택해 주세요.</p>
+        </div>
+        <div class="field-grid two-col">
+          <div class="field">
+            <label for="issueCategory">애로분야<span class="req">*</span></label>
+            <select id="issueCategory" name="issueCategory">
+              <option value="">선택해 주세요</option>
+              <option>경영비용·수익성</option>
+              <option>인력·노무</option>
+              <option>생산·품질·납기</option>
+              <option>자금·결제·거래조건</option>
+              <option>기술개발·전환</option>
+              <option>ESG·환경·안전·규제</option>
+              <option>판로·수출·마케팅</option>
+              <option>협력구조·거래관행</option>
+              <option>기타</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="issueDetail">세부 유형<span class="req">*</span></label>
+            <select id="issueDetail" name="issueDetail" disabled>
+              <option value="">먼저 애로분야를 선택해 주세요</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div id="supportFields" class="mode-panel" hidden>
+        <div class="panel-head">
+          <h4>지원 요청 분류</h4>
+          <p>어떤 종류의 지원 검토가 필요한지 선택해 주세요. (복수 선택 가능)</p>
+        </div>
+        <div class="check-grid">
+          <label><input type="checkbox" name="supportAreas" value="정책·제도 개선 건의"> 정책·제도 개선 건의</label>
+          <label><input type="checkbox" name="supportAreas" value="금융·자금 지원 연계"> 금융·자금 지원 연계</label>
+          <label><input type="checkbox" name="supportAreas" value="납품단가·거래조건 개선"> 납품단가·거래조건 개선</label>
+          <label><input type="checkbox" name="supportAreas" value="인력 채용·교육 지원"> 인력 채용·교육 지원</label>
+          <label><input type="checkbox" name="supportAreas" value="기술개발·R&D 지원"> 기술개발·R&D 지원</label>
+          <label><input type="checkbox" name="supportAreas" value="ESG·안전·환경 대응 지원"> ESG·안전·환경 대응 지원</label>
+          <label><input type="checkbox" name="supportAreas" value="인증·시험·품질 지원"> 인증·시험·품질 지원</label>
+          <label><input type="checkbox" name="supportAreas" value="판로·수출·마케팅 지원"> 판로·수출·마케팅 지원</label>
+          <label><input type="checkbox" name="supportAreas" value="네트워킹·매칭 프로그램"> 네트워킹·매칭 프로그램</label>
+          <label><input type="checkbox" name="supportAreas" value="기타"> 기타</label>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. 상세 내용 -->
+    <section class="section">
+      <div class="section-head">
+        <h3>3. 상세 내용</h3>
+        <p id="detailDesc">발생 배경과 실제 영향을 간단명료하게 적어 주세요.</p>
+      </div>
+
+      <div class="field-grid two-col">
+        <fieldset class="field">
+          <legend>긴급도<span class="req">*</span></legend>
+          <div class="choice-row">
+            <label><input type="radio" name="urgency" value="높음"> 높음</label>
+            <label><input type="radio" name="urgency" value="보통"> 보통</label>
+            <label><input type="radio" name="urgency" value="낮음"> 낮음</label>
+          </div>
+        </fieldset>
+        <fieldset class="field">
+          <legend>문제가 이어진 기간<span class="req">*</span></legend>
+          <div class="choice-row">
+            <label><input type="radio" name="issuePeriod" value="1개월 이내"> 1개월 이내</label>
+            <label><input type="radio" name="issuePeriod" value="1~3개월"> 1~3개월</label>
+            <label><input type="radio" name="issuePeriod" value="3~6개월"> 3~6개월</label>
+            <label><input type="radio" name="issuePeriod" value="6개월 이상"> 6개월 이상</label>
+          </div>
+        </fieldset>
+      </div>
+
+      <div class="field" style="margin-top:18px;">
+        <label for="title">제목<span class="req">*</span></label>
+        <input type="text" id="title" name="title" maxlength="100" placeholder="핵심 내용이 드러나는 제목을 적어 주세요.">
+        <span class="counter" id="titleCounter">0 / 100</span>
+      </div>
+
+      <div class="field" style="margin-top:8px;">
+        <label for="detailDescription" id="detailLabel">구체적인 애로 내용<span class="req">*</span></label>
+        <div class="hint-box" id="detailHint">언제부터 어떤 문제가 발생했고, 경영이나 생산에 어떤 영향을 주는지 구체적으로 적어 주세요.</div>
+        <textarea id="detailDescription" name="detailDescription" maxlength="5000" placeholder="상황, 배경, 반복 여부, 영향 범위를 적어 주세요."></textarea>
+        <span class="counter" id="detailCounter">0 / 5000</span>
+      </div>
+
+      <div class="field" style="margin-top:8px;">
+        <label for="requestDetail" id="requestLabel">바라는 개선·지원 요청<span class="req">*</span></label>
+        <textarea id="requestDetail" name="requestDetail" maxlength="2000" placeholder="필요한 지원 방향, 제도 개선, 프로그램, 연계 요청 등을 적어 주세요."></textarea>
+      </div>
+    </section>
+
+    <!-- 4. 협력사 정보 -->
+    <section class="section">
+      <div class="section-head">
+        <h3>4. 협력사 정보</h3>
+        <p>후속 연락이 가능하면 세부 확인과 집계 품질이 높아집니다.</p>
+      </div>
+
+      <div class="field-grid two-col">
         <div class="field">
-          <label for="company">회사명 <span class="req" id="companyReq">*</span></label>
-          <input type="text" id="company" name="company" autocomplete="organization" placeholder="○○부품 주식회사">
+          <label for="companyName">업체명<span class="req">*</span></label>
+          <input type="text" id="companyName" name="companyName" maxlength="100" placeholder="업체명을 입력해 주세요">
+        </div>
+        <fieldset class="field">
+          <legend>협력 단계<span class="req">*</span></legend>
+          <div class="choice-row">
+            <label><input type="radio" name="supplierTier" value="1차 협력사"> 1차</label>
+            <label><input type="radio" name="supplierTier" value="2차 협력사"> 2차</label>
+            <label><input type="radio" name="supplierTier" value="3차 이하 협력사"> 3차 이하</label>
+            <label><input type="radio" name="supplierTier" value="기타"> 기타</label>
+          </div>
+        </fieldset>
+      </div>
+
+      <fieldset class="field" style="margin-top:18px;">
+        <legend>후속 연락 가능 여부<span class="req">*</span></legend>
+        <div class="choice-row">
+          <label><input type="radio" name="contactMode" value="연락 가능" checked> 연락 가능</label>
+          <label><input type="radio" name="contactMode" value="비공개"> 비공개</label>
+        </div>
+      </fieldset>
+
+      <div id="contactFields" class="field-grid four-col">
+        <div class="field">
+          <label for="contactName">담당자명<span class="req contact-only">*</span></label>
+          <input type="text" id="contactName" name="contactName" maxlength="50" placeholder="담당자명">
         </div>
         <div class="field">
-          <label for="name">담당자명 <span class="req" id="nameReq">*</span></label>
-          <input type="text" id="name" name="name" autocomplete="name" placeholder="홍길동">
+          <label for="department">부서·직무</label>
+          <input type="text" id="department" name="department" maxlength="100" placeholder="예: 생산관리팀">
         </div>
         <div class="field">
-          <label for="contact">연락처 <span class="hint">(전화 또는 이메일)</span></label>
-          <input type="text" id="contact" name="contact" autocomplete="off" placeholder="010-0000-0000 또는 email@example.com">
+          <label for="contactEmail">이메일<span class="req contact-only">*</span></label>
+          <input type="email" id="contactEmail" name="contactEmail" maxlength="100" placeholder="name@example.com">
+        </div>
+        <div class="field">
+          <label for="contactPhone">휴대전화</label>
+          <input type="tel" id="contactPhone" name="contactPhone" maxlength="20" placeholder="010-0000-0000">
         </div>
       </div>
 
-      <div class="field">
-        <label for="title">제목 <span class="req">*</span></label>
-        <input type="text" id="title" name="title" maxlength="100" placeholder="애로사항을 한 줄로 요약해 주세요" required>
-      </div>
+      <p class="contact-note" id="contactNote">연락 가능으로 접수하면 필요 시 사실 확인이나 추가 사례 요청이 진행될 수 있습니다.</p>
+    </section>
 
-      <div class="field">
-        <label for="message">애로사항 내용 <span class="req">*</span></label>
-        <textarea id="message" name="message" placeholder="어떤 어려움을 겪고 계신지 구체적으로 작성해 주세요. (상황 · 발생 원인 · 필요한 지원 등)" required></textarea>
+    <!-- 5. 동의 -->
+    <section class="section">
+      <div class="section-head">
+        <h3>5. 개인정보 수집·이용 동의</h3>
+        <p>접수 운영과 분석 목적 범위 내에서만 활용합니다.</p>
       </div>
-
-      <div class="privacy">
-        <div class="privacy-title">개인정보 수집·이용 안내</div>
-        <ul>
-          <li><b>수집 항목</b> : 회사명, 담당자명, 연락처 (익명 접수 시 미수집)</li>
-          <li><b>수집 목적</b> : 애로사항 검토 및 재단 사업 참고</li>
-          <li><b>보유 기간</b> : 접수 처리 완료 후 3년 (이후 파기)</li>
-        </ul>
-        <p>제출하신 정보는 위 목적 외로 이용되지 않으며, 외부에 공개되지 않습니다.</p>
+      <div class="consent-table">
+        <div class="consent-row header">
+          <span>수집 목적</span><span>수집 항목</span><span>보유 기간</span>
+        </div>
+        <div class="consent-row">
+          <span>협력사 애로·지원 요청 접수, 현황 분석, 재단 사업 검토</span>
+          <span>업체명, 협력단계, 담당자명, 부서·직무, 이메일, 휴대전화, 접수 내용</span>
+          <span>접수일로부터 3년</span>
+        </div>
       </div>
+      <label class="final-consent">
+        <input type="checkbox" id="privacyConsent" name="privacyConsent" value="Y">
+        <span>위 개인정보 수집·이용에 동의합니다. (필수)</span>
+      </label>
+    </section>
 
-      <div class="agree-row">
-        <input type="checkbox" id="agree" name="agree" required>
-        <label for="agree">위 개인정보 수집·이용 및 접수 내용 처리에 동의합니다. (필수)</label>
-      </div>
+    <div class="action-row">
+      <button type="reset" class="secondary-btn">초기화</button>
+      <button type="submit" class="primary-btn" id="submitButton">접수하기</button>
+    </div>
 
-      <div class="actions">
-        <button type="submit" id="submitBtn">접수하기</button>
-        <button type="reset" class="reset-btn">다시 작성</button>
-      </div>
-
-      <div class="msg" id="resultMsg"></div>
-    </form>
-  </div>
+    <div class="status-message" id="statusMessage" role="status" aria-live="polite"></div>
+  </form>
 </main>
 
 <footer>
@@ -306,77 +459,171 @@
 
 <script>
   // ── 설정 ─────────────────────────────────────────────
-  // Google Apps Script 웹앱 배포 후 받은 URL을 아래에 붙여넣으세요.
   const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzQx3sozL_1j6HrQOrPWvrNprnsFCR4UAq2Nhg_D8_4cUHhKUDnp46w9FDVoWmTJgtpJQ/exec";
   // ────────────────────────────────────────────────────
 
-  const form     = document.getElementById('petitionForm');
-  const anon      = document.getElementById('anon');
-  const idBlock   = document.getElementById('idBlock');
-  const companyInput = document.getElementById('company');
-  const nameInput = document.getElementById('name');
-  const submitBtn = document.getElementById('submitBtn');
-  const resultMsg = document.getElementById('resultMsg');
+  // 애로분야별 세부 유형
+  const ISSUE_DETAILS = {
+    "경영비용·수익성": ["원자재가 상승","에너지·물류비 상승","수익성 악화","고정비 부담","기타"],
+    "인력·노무": ["인력 채용난","숙련인력 부족","인건비 상승","노사 관계","외국인력","기타"],
+    "생산·품질·납기": ["설비 노후화","품질 불량·클레임","납기 대응","생산능력 부족","기타"],
+    "자금·결제·거래조건": ["자금 유동성","대금 결제 지연","담보·신용","거래조건 불리","기타"],
+    "기술개발·전환": ["R&D 역량 부족","미래차 전환 대응","기술인력 부족","특허·IP","기타"],
+    "ESG·환경·안전·규제": ["환경규제 대응","안전관리","탄소중립·에너지","인증 부담","기타"],
+    "판로·수출·마케팅": ["판로 확보","수출 애로","신규 거래처","마케팅 역량","기타"],
+    "협력구조·거래관행": ["납품단가","불공정 거래","다단계 구조","정보 비대칭","기타"],
+    "기타": ["기타"]
+  };
 
-  // 익명 토글: 회사명/담당자/연락처 영역 숨김 + 필수 해제
-  function syncAnon(){
-    if(anon.checked){
-      idBlock.classList.add('hidden-field');
-      companyInput.required = false;
-      nameInput.required = false;
-    }else{
-      idBlock.classList.remove('hidden-field');
-      companyInput.required = true;
-      nameInput.required = true;
-    }
+  const $ = (id)=>document.getElementById(id);
+  const form = $('intakeForm');
+  const submitBtn = $('submitButton');
+  const statusMsg = $('statusMessage');
+
+  const issueFields = $('issueFields');
+  const supportFields = $('supportFields');
+  const issueCategory = $('issueCategory');
+  const issueDetail = $('issueDetail');
+
+  // 접수 유형 전환
+  function getRequestType(){
+    const el = form.querySelector('input[name="requestType"]:checked');
+    return el ? el.value : '애로사항 접수';
   }
-  anon.addEventListener('change', syncAnon);
-  syncAnon();
+  function syncRequestType(){
+    const isIssue = getRequestType() === '애로사항 접수';
+    issueFields.hidden = !isIssue;
+    supportFields.hidden = isIssue;
+    $('classDesc').textContent = isIssue ? '현재 겪는 애로를 먼저 분류해 주세요.' : '필요한 지원 검토 종류를 선택해 주세요.';
+    $('detailDesc').textContent = isIssue ? '발생 배경과 실제 영향을 간단명료하게 적어 주세요.' : '필요한 지원의 배경과 기대 효과를 적어 주세요.';
+    $('detailLabel').innerHTML = isIssue ? '구체적인 애로 내용<span class="req">*</span>' : '지원이 필요한 배경<span class="req">*</span>';
+    $('requestLabel').innerHTML = isIssue ? '바라는 개선·지원 요청<span class="req">*</span>' : '구체적인 지원 요청 사항<span class="req">*</span>';
+    $('detailHint').textContent = isIssue
+      ? '언제부터 어떤 문제가 발생했고, 경영이나 생산에 어떤 영향을 주는지 구체적으로 적어 주세요.'
+      : '현재 상황과 왜 지원이 필요한지, 지원이 이루어지면 기대되는 효과를 적어 주세요.';
+  }
+  form.querySelectorAll('input[name="requestType"]').forEach(el=>el.addEventListener('change', syncRequestType));
 
-  function showMsg(text, type){
-    resultMsg.textContent = text;
-    resultMsg.className = 'msg show ' + type;
+  // 세부 유형 동적 채움
+  issueCategory.addEventListener('change', ()=>{
+    const list = ISSUE_DETAILS[issueCategory.value] || [];
+    issueDetail.innerHTML = '';
+    if(!list.length){
+      issueDetail.innerHTML = '<option value="">먼저 애로분야를 선택해 주세요</option>';
+      issueDetail.disabled = true;
+      return;
+    }
+    issueDetail.disabled = false;
+    issueDetail.appendChild(new Option('선택해 주세요',''));
+    list.forEach(v=>issueDetail.appendChild(new Option(v,v)));
+  });
+
+  // 연락처 토글
+  function syncContact(){
+    const mode = form.querySelector('input[name="contactMode"]:checked').value;
+    $('contactFields').hidden = (mode === '비공개');
+    $('contactNote').hidden = (mode === '비공개');
+  }
+  form.querySelectorAll('input[name="contactMode"]').forEach(el=>el.addEventListener('change', syncContact));
+
+  // 글자수 카운터
+  function bindCounter(input, counter, max){
+    const upd = ()=>counter.textContent = input.value.length + ' / ' + max;
+    input.addEventListener('input', upd); upd();
+  }
+  bindCounter($('title'), $('titleCounter'), 100);
+  bindCounter($('detailDescription'), $('detailCounter'), 5000);
+
+  function showStatus(text, type){
+    statusMsg.textContent = text;
+    statusMsg.className = 'status-message show ' + type;
+    statusMsg.scrollIntoView({behavior:'smooth', block:'center'});
+  }
+
+  // 검증
+  function validate(){
+    const isIssue = getRequestType() === '애로사항 접수';
+    if(isIssue){
+      if(!issueCategory.value) return '애로분야를 선택해 주세요.';
+      if(!issueDetail.value) return '세부 유형을 선택해 주세요.';
+    }else{
+      if(!form.querySelector('input[name="supportAreas"]:checked')) return '지원 요청 분류를 1개 이상 선택해 주세요.';
+    }
+    if(!form.querySelector('input[name="urgency"]:checked')) return '긴급도를 선택해 주세요.';
+    if(!form.querySelector('input[name="issuePeriod"]:checked')) return '문제가 이어진 기간을 선택해 주세요.';
+    if(!$('title').value.trim()) return '제목을 입력해 주세요.';
+    if(!$('detailDescription').value.trim()) return '상세 내용을 입력해 주세요.';
+    if(!$('requestDetail').value.trim()) return '요청 사항을 입력해 주세요.';
+    if(!$('companyName').value.trim()) return '업체명을 입력해 주세요.';
+    if(!form.querySelector('input[name="supplierTier"]:checked')) return '협력 단계를 선택해 주세요.';
+    const contactable = form.querySelector('input[name="contactMode"]:checked').value === '연락 가능';
+    if(contactable){
+      if(!$('contactName').value.trim()) return '담당자명을 입력해 주세요.';
+      if(!$('contactEmail').value.trim()) return '이메일을 입력해 주세요.';
+    }
+    if(!$('privacyConsent').checked) return '개인정보 수집·이용에 동의해 주세요.';
+    return '';
   }
 
   form.addEventListener('submit', async (e)=>{
     e.preventDefault();
-    resultMsg.className = 'msg';
+    statusMsg.className = 'status-message';
+    const err = validate();
+    if(err){ showStatus(err, 'err'); return; }
 
-    const isAnon = anon.checked;
+    const supportAreas = Array.from(form.querySelectorAll('input[name="supportAreas"]:checked')).map(el=>el.value).join(', ');
+    const contactable = form.querySelector('input[name="contactMode"]:checked').value === '연락 가능';
+
     const payload = {
-      anon:     isAnon ? '익명' : '실명',
-      company:  isAnon ? '' : companyInput.value.trim(),
-      name:     isAnon ? '' : nameInput.value.trim(),
-      contact:  isAnon ? '' : form.contact.value.trim(),
-      title:    form.title.value.trim(),
-      message:  form.message.value.trim()
+      requestType:  getRequestType(),
+      issueCategory: issueCategory.value,
+      issueDetail:   issueDetail.value,
+      supportAreas:  supportAreas,
+      urgency:       (form.querySelector('input[name="urgency"]:checked')||{}).value || '',
+      issuePeriod:   (form.querySelector('input[name="issuePeriod"]:checked')||{}).value || '',
+      title:         $('title').value.trim(),
+      detailDescription: $('detailDescription').value.trim(),
+      requestDetail: $('requestDetail').value.trim(),
+      companyName:   $('companyName').value.trim(),
+      supplierTier:  (form.querySelector('input[name="supplierTier"]:checked')||{}).value || '',
+      contactMode:   contactable ? '연락 가능' : '비공개',
+      contactName:   contactable ? $('contactName').value.trim() : '',
+      department:    contactable ? $('department').value.trim() : '',
+      contactEmail:  contactable ? $('contactEmail').value.trim() : '',
+      contactPhone:  contactable ? $('contactPhone').value.trim() : '',
+      privacyConsent:'Y'
     };
 
     submitBtn.disabled = true;
     submitBtn.textContent = '접수 중…';
-
     try{
-      // text/plain POST는 CORS 프리플라이트가 없어, 응답(JSON)을 그대로 읽을 수 있음
       const res = await fetch(SCRIPT_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        method:'POST',
+        headers:{'Content-Type':'text/plain;charset=utf-8'},
         body: JSON.stringify(payload)
       });
       const data = await res.json();
       if(data.result === 'success'){
-        showMsg('애로사항이 정상적으로 접수되었습니다. (접수번호 ' + data.ticket + ')', 'ok');
+        showStatus('정상적으로 접수되었습니다. (접수번호 ' + data.ticket + ') 소중한 의견 감사합니다.', 'ok');
         form.reset();
-        syncAnon();
+        issueDetail.innerHTML = '<option value="">먼저 애로분야를 선택해 주세요</option>';
+        issueDetail.disabled = true;
+        syncRequestType(); syncContact();
+        bindCounter($('title'), $('titleCounter'), 100);
       }else{
-        showMsg('접수에 실패했습니다. ' + (data.message || '잠시 후 다시 시도해 주세요.'), 'err');
+        showStatus('접수에 실패했습니다. ' + (data.message || '잠시 후 다시 시도해 주세요.'), 'err');
       }
     }catch(err){
-      showMsg('접수 중 오류가 발생했습니다. 네트워크 상태를 확인하고 다시 시도해 주세요.', 'err');
+      showStatus('접수 중 오류가 발생했습니다. 네트워크 상태를 확인하고 다시 시도해 주세요.', 'err');
     }finally{
       submitBtn.disabled = false;
       submitBtn.textContent = '접수하기';
     }
   });
+
+  // 초기화
+  syncRequestType();
+  syncContact();
 </script>
 </body>
 </html>
