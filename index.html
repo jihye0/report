@@ -140,6 +140,11 @@
 
   .contact-note{margin:14px 0 0;font-size:12px;color:var(--ink-soft);}
 
+  .anon-toggle{display:flex;align-items:flex-start;gap:11px;margin-bottom:18px;padding:14px 16px;background:var(--field);border:1px solid var(--line);border-radius:10px;cursor:pointer;}
+  .anon-toggle input{margin-top:2px;width:18px;height:18px;flex:0 0 auto;accent-color:var(--brand);cursor:pointer;}
+  .anon-toggle span{font-size:13.5px;font-weight:600;}
+  .anon-toggle small{display:block;margin-top:3px;font-size:12px;font-weight:400;color:var(--ink-soft);line-height:1.5;}
+
   /* 동의 테이블 */
   .consent-table{border:1px solid var(--line);border-radius:10px;overflow:hidden;font-size:12.5px;}
   .consent-row{display:grid;grid-template-columns:1.4fr 1.8fr .8fr;}
@@ -263,7 +268,7 @@
         </div>
         <div class="field-grid two-col">
           <div class="field">
-            <label for="issueCategory">애로분야<span class="req">*</span></label>
+            <label for="issueCategory">구분<span class="req">*</span></label>
             <select id="issueCategory" name="issueCategory">
               <option value="">선택해 주세요</option>
               <option>경영비용·수익성</option>
@@ -280,7 +285,7 @@
           <div class="field">
             <label for="issueDetail">세부 유형<span class="req">*</span></label>
             <select id="issueDetail" name="issueDetail" disabled>
-              <option value="">먼저 애로분야를 선택해 주세요</option>
+              <option value="">먼저 구분을 선택해 주세요</option>
             </select>
           </div>
         </div>
@@ -359,50 +364,59 @@
         <p>후속 연락이 가능하면 세부 확인과 집계 품질이 높아집니다.</p>
       </div>
 
-      <div class="field-grid two-col">
-        <div class="field">
-          <label for="companyName">업체명<span class="req">*</span></label>
-          <input type="text" id="companyName" name="companyName" maxlength="100" placeholder="업체명을 입력해 주세요">
+      <label class="anon-toggle">
+        <input type="checkbox" id="anonymous" name="anonymous" value="Y">
+        <span>익명으로 접수하기
+          <small>체크하면 업체·담당자 정보를 입력하지 않습니다. 단, 후속 연락이나 추가 사례 확인은 받을 수 없습니다.</small>
+        </span>
+      </label>
+
+      <div id="companyBlock">
+        <div class="field-grid two-col">
+          <div class="field">
+            <label for="companyName">업체명<span class="req">*</span></label>
+            <input type="text" id="companyName" name="companyName" maxlength="100" placeholder="업체명을 입력해 주세요">
+          </div>
+          <fieldset class="field">
+            <legend>협력 단계<span class="req">*</span></legend>
+            <div class="choice-row">
+              <label><input type="radio" name="supplierTier" value="1차 협력사"> 1차</label>
+              <label><input type="radio" name="supplierTier" value="2차 협력사"> 2차</label>
+              <label><input type="radio" name="supplierTier" value="3차 이하 협력사"> 3차 이하</label>
+              <label><input type="radio" name="supplierTier" value="기타"> 기타</label>
+            </div>
+          </fieldset>
         </div>
-        <fieldset class="field">
-          <legend>협력 단계<span class="req">*</span></legend>
+
+        <fieldset class="field" style="margin-top:18px;">
+          <legend>후속 연락 가능 여부<span class="req">*</span></legend>
           <div class="choice-row">
-            <label><input type="radio" name="supplierTier" value="1차 협력사"> 1차</label>
-            <label><input type="radio" name="supplierTier" value="2차 협력사"> 2차</label>
-            <label><input type="radio" name="supplierTier" value="3차 이하 협력사"> 3차 이하</label>
-            <label><input type="radio" name="supplierTier" value="기타"> 기타</label>
+            <label><input type="radio" name="contactMode" value="연락 가능" checked> 연락 가능</label>
+            <label><input type="radio" name="contactMode" value="비공개"> 비공개</label>
           </div>
         </fieldset>
+
+        <div id="contactFields" class="field-grid four-col">
+          <div class="field">
+            <label for="contactName">담당자명<span class="req contact-only">*</span></label>
+            <input type="text" id="contactName" name="contactName" maxlength="50" placeholder="담당자명">
+          </div>
+          <div class="field">
+            <label for="department">부서·직무</label>
+            <input type="text" id="department" name="department" maxlength="100" placeholder="예: 생산관리팀">
+          </div>
+          <div class="field">
+            <label for="contactEmail">이메일<span class="req contact-only">*</span></label>
+            <input type="email" id="contactEmail" name="contactEmail" maxlength="100" placeholder="name@example.com">
+          </div>
+          <div class="field">
+            <label for="contactPhone">휴대전화</label>
+            <input type="tel" id="contactPhone" name="contactPhone" maxlength="20" placeholder="010-0000-0000">
+          </div>
+        </div>
+
+        <p class="contact-note" id="contactNote">연락 가능으로 접수하면 필요 시 사실 확인이나 추가 사례 요청이 진행될 수 있습니다.</p>
       </div>
-
-      <fieldset class="field" style="margin-top:18px;">
-        <legend>후속 연락 가능 여부<span class="req">*</span></legend>
-        <div class="choice-row">
-          <label><input type="radio" name="contactMode" value="연락 가능" checked> 연락 가능</label>
-          <label><input type="radio" name="contactMode" value="비공개"> 비공개</label>
-        </div>
-      </fieldset>
-
-      <div id="contactFields" class="field-grid four-col">
-        <div class="field">
-          <label for="contactName">담당자명<span class="req contact-only">*</span></label>
-          <input type="text" id="contactName" name="contactName" maxlength="50" placeholder="담당자명">
-        </div>
-        <div class="field">
-          <label for="department">부서·직무</label>
-          <input type="text" id="department" name="department" maxlength="100" placeholder="예: 생산관리팀">
-        </div>
-        <div class="field">
-          <label for="contactEmail">이메일<span class="req contact-only">*</span></label>
-          <input type="email" id="contactEmail" name="contactEmail" maxlength="100" placeholder="name@example.com">
-        </div>
-        <div class="field">
-          <label for="contactPhone">휴대전화</label>
-          <input type="tel" id="contactPhone" name="contactPhone" maxlength="20" placeholder="010-0000-0000">
-        </div>
-      </div>
-
-      <p class="contact-note" id="contactNote">연락 가능으로 접수하면 필요 시 사실 확인이나 추가 사례 요청이 진행될 수 있습니다.</p>
     </section>
 
     <!-- 5. 동의 -->
@@ -494,7 +508,7 @@
     const list = ISSUE_DETAILS[issueCategory.value] || [];
     issueDetail.innerHTML = '';
     if(!list.length){
-      issueDetail.innerHTML = '<option value="">먼저 애로분야를 선택해 주세요</option>';
+      issueDetail.innerHTML = '<option value="">먼저 구분을 선택해 주세요</option>';
       issueDetail.disabled = true;
       return;
     }
@@ -502,6 +516,13 @@
     issueDetail.appendChild(new Option('선택해 주세요',''));
     list.forEach(v=>issueDetail.appendChild(new Option(v,v)));
   });
+
+  // 익명 접수 토글
+  function isAnon(){ return $('anonymous').checked; }
+  function syncAnon(){
+    $('companyBlock').hidden = isAnon();
+  }
+  $('anonymous').addEventListener('change', syncAnon);
 
   // 연락처 토글
   function syncContact(){
@@ -529,7 +550,7 @@
   function validate(){
     const isIssue = getRequestType() === '애로사항 접수';
     if(isIssue){
-      if(!issueCategory.value) return '애로분야를 선택해 주세요.';
+      if(!issueCategory.value) return '구분을 선택해 주세요.';
       if(!issueDetail.value) return '세부 유형을 선택해 주세요.';
     }else{
       if(!form.querySelector('input[name="supportAreas"]:checked')) return '지원 요청 분류를 1개 이상 선택해 주세요.';
@@ -539,12 +560,14 @@
     if(!$('title').value.trim()) return '제목을 입력해 주세요.';
     if(!$('detailDescription').value.trim()) return '상세 내용을 입력해 주세요.';
     if(!$('requestDetail').value.trim()) return '요청 사항을 입력해 주세요.';
-    if(!$('companyName').value.trim()) return '업체명을 입력해 주세요.';
-    if(!form.querySelector('input[name="supplierTier"]:checked')) return '협력 단계를 선택해 주세요.';
-    const contactable = form.querySelector('input[name="contactMode"]:checked').value === '연락 가능';
-    if(contactable){
-      if(!$('contactName').value.trim()) return '담당자명을 입력해 주세요.';
-      if(!$('contactEmail').value.trim()) return '이메일을 입력해 주세요.';
+    if(!isAnon()){
+      if(!$('companyName').value.trim()) return '업체명을 입력해 주세요.';
+      if(!form.querySelector('input[name="supplierTier"]:checked')) return '협력 단계를 선택해 주세요.';
+      const contactable = form.querySelector('input[name="contactMode"]:checked').value === '연락 가능';
+      if(contactable){
+        if(!$('contactName').value.trim()) return '담당자명을 입력해 주세요.';
+        if(!$('contactEmail').value.trim()) return '이메일을 입력해 주세요.';
+      }
     }
     if(!$('privacyConsent').checked) return '개인정보 수집·이용에 동의해 주세요.';
     return '';
@@ -557,7 +580,8 @@
     if(err){ showStatus(err, 'err'); return; }
 
     const supportAreas = Array.from(form.querySelectorAll('input[name="supportAreas"]:checked')).map(el=>el.value).join(', ');
-    const contactable = form.querySelector('input[name="contactMode"]:checked').value === '연락 가능';
+    const anon = isAnon();
+    const contactable = !anon && form.querySelector('input[name="contactMode"]:checked').value === '연락 가능';
 
     const payload = {
       requestType:  getRequestType(),
@@ -569,9 +593,10 @@
       title:         $('title').value.trim(),
       detailDescription: $('detailDescription').value.trim(),
       requestDetail: $('requestDetail').value.trim(),
-      companyName:   $('companyName').value.trim(),
-      supplierTier:  (form.querySelector('input[name="supplierTier"]:checked')||{}).value || '',
-      contactMode:   contactable ? '연락 가능' : '비공개',
+      anonymous:     anon ? '익명' : '실명',
+      companyName:   anon ? '' : $('companyName').value.trim(),
+      supplierTier:  anon ? '' : ((form.querySelector('input[name="supplierTier"]:checked')||{}).value || ''),
+      contactMode:   anon ? '익명' : (contactable ? '연락 가능' : '비공개'),
       contactName:   contactable ? $('contactName').value.trim() : '',
       department:    contactable ? $('department').value.trim() : '',
       contactEmail:  contactable ? $('contactEmail').value.trim() : '',
@@ -591,9 +616,9 @@
       if(data.result === 'success'){
         showStatus('정상적으로 접수되었습니다. (접수번호 ' + data.ticket + ') 소중한 의견 감사합니다.', 'ok');
         form.reset();
-        issueDetail.innerHTML = '<option value="">먼저 애로분야를 선택해 주세요</option>';
+        issueDetail.innerHTML = '<option value="">먼저 구분을 선택해 주세요</option>';
         issueDetail.disabled = true;
-        syncRequestType(); syncContact();
+        syncRequestType(); syncContact(); syncAnon();
         bindCounter($('title'), $('titleCounter'), 100);
       }else{
         showStatus('접수에 실패했습니다. ' + (data.message || '잠시 후 다시 시도해 주세요.'), 'err');
@@ -609,6 +634,10 @@
   // 초기화
   syncRequestType();
   syncContact();
+  syncAnon();
+  // reset 버튼 후 상태 동기화
+  form.addEventListener('reset', ()=>setTimeout(()=>{ syncRequestType(); syncContact(); syncAnon();
+    issueDetail.innerHTML = '<option value="">먼저 구분을 선택해 주세요</option>'; issueDetail.disabled = true; }, 0));
 </script>
 </body>
 </html>
