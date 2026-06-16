@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>신문고 · 민원·제보 접수</title>
+<title>K-Mobility 브릿지 재단 · 제보·문의 접수</title>
 <style>
   :root{
     --ink:#11203b;        /* 진남색 본문 */
@@ -13,9 +13,9 @@
     --field:#f4f6fb;
     --paper:#ffffff;
     --bg:#eef1f7;
-    --brand:#1d4e80;      /* 관청 블루 */
-    --brand-deep:#143a63;
-    --gold:#b08534;       /* 인장 골드 */
+    --brand:#1f4e8c;      /* 브릿지 재단 남색 */
+    --brand-deep:#163a6b;
+    --gold:#8a8d93;       /* 로고 그레이 포인트 */
     --ok-bg:#e7f3ec;
     --ok-ink:#1f6b3b;
     --err-bg:#fbecec;
@@ -44,26 +44,25 @@
   .topbar a{color:#cdd9ea;text-decoration:none;}
 
   header.masthead{
-    background:var(--brand);
-    color:#fff;
-    border-bottom:3px solid var(--gold);
+    background:#fff;
+    color:var(--ink);
+    border-bottom:3px solid var(--brand);
   }
   .masthead .wrap{
-    max-width:760px;margin:0 auto;padding:26px 22px;
-    display:flex;align-items:center;gap:18px;
+    max-width:760px;margin:0 auto;padding:24px 22px;
+    display:flex;align-items:center;gap:20px;
   }
-  .seal{
-    flex:0 0 auto;width:54px;height:54px;border-radius:50%;
-    border:2px solid var(--gold);
-    display:flex;align-items:center;justify-content:center;
-    font-size:24px;color:var(--gold);
-    background:rgba(255,255,255,.06);
+  .masthead img.logo{
+    flex:0 0 auto;height:64px;width:auto;display:block;
+  }
+  .masthead .titles{
+    border-left:1px solid var(--line);padding-left:20px;
   }
   .masthead h1{
-    margin:0;font-size:23px;font-weight:700;letter-spacing:.06em;
+    margin:0;font-size:18px;font-weight:700;letter-spacing:.02em;color:var(--brand);
   }
   .masthead p{
-    margin:3px 0 0;font-size:13px;color:#d4deec;font-weight:400;letter-spacing:.02em;
+    margin:4px 0 0;font-size:13px;color:var(--ink-soft);font-weight:400;letter-spacing:.01em;
   }
 
   main{max-width:760px;margin:0 auto;padding:28px 22px 60px;}
@@ -159,8 +158,11 @@
   footer .rule{height:1px;background:var(--line);margin-bottom:16px;}
 
   @media (max-width:560px){
-    .masthead h1{font-size:19px;}
-    .seal{width:46px;height:46px;font-size:20px;}
+    .masthead .wrap{gap:14px;padding:18px 16px;}
+    .masthead img.logo{height:48px;}
+    .masthead .titles{padding-left:14px;}
+    .masthead h1{font-size:15px;}
+    .masthead p{font-size:12px;}
     form,.card .card-head{padding-left:16px;padding-right:16px;}
   }
 </style>
@@ -169,30 +171,30 @@
 
 <div class="topbar">
   <div class="wrap">
-    <span>온라인 신문고</span>
-    <span>접수기간 · 365일 24시간</span>
+    <span>K-Mobility 브릿지 재단</span>
+    <span>접수 · 365일 24시간</span>
   </div>
 </div>
 
 <header class="masthead">
   <div class="wrap">
-    <div class="seal">⚖</div>
-    <div>
-      <h1>신문고</h1>
-      <p>국민의 목소리를 듣는 민원·제보 접수창구</p>
+    <img class="logo" src="logo.png" alt="K-Mobility 브릿지 재단 Bridge Foundation">
+    <div class="titles">
+      <h1>제보·문의 접수창구</h1>
+      <p>재단에 전하고 싶은 의견을 안전하게 접수합니다</p>
     </div>
   </div>
 </header>
 
 <main>
   <div class="notice">
-    접수하신 내용은 <b>담당자만 열람</b>하며, 외부에 공개되지 않습니다.
+    접수하신 내용은 <b>재단 담당자만 열람</b>하며, 외부에 공개되지 않습니다.
     사실에 근거하여 작성해 주시고, 처리 결과 안내가 필요한 경우 연락처를 남겨 주세요.
   </div>
 
   <div class="card">
     <div class="card-head">
-      <h2>민원·제보 접수서</h2>
+      <h2>제보·문의 접수서</h2>
       <span><span class="req">*</span> 표시는 필수 입력 항목입니다.</span>
     </div>
 
@@ -201,9 +203,9 @@
         <label for="category">분류 <span class="req">*</span></label>
         <select id="category" name="category" required>
           <option value="" disabled selected>선택해 주세요</option>
-          <option>민원·고충</option>
-          <option>부패·비위 제보</option>
-          <option>정책 건의</option>
+          <option>일반 문의</option>
+          <option>제보·신고</option>
+          <option>사업·정책 건의</option>
           <option>칭찬·감사</option>
           <option>기타</option>
         </select>
@@ -255,7 +257,7 @@
 
 <footer>
   <div class="rule"></div>
-  본 창구는 접수 전용이며, 제출 내용은 관리자 스프레드시트에 안전하게 저장됩니다.
+  K-Mobility 브릿지 재단 · 본 창구는 접수 전용이며, 제출 내용은 재단 관리자에게 안전하게 전달·저장됩니다.
 </footer>
 
 <script>
