@@ -305,19 +305,22 @@
     submitBtn.textContent = '접수 중…';
 
     try{
-      await fetch(SCRIPT_URL, {
+      // text/plain POST는 CORS 프리플라이트가 없어, 응답(JSON)을 그대로 읽을 수 있음
+      const res = await fetch(SCRIPT_URL, {
         method: 'POST',
-        // Apps Script 웹앱은 CORS 프리플라이트를 피하기 위해 no-cors + text/plain 사용
-        mode: 'no-cors',
         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
         body: JSON.stringify(payload)
       });
-      // no-cors 응답은 내용을 읽을 수 없으나, 전송은 정상 처리됨
-      showMsg('애로사항이 정상적으로 접수되었습니다. 소중한 의견 감사합니다.', 'ok');
-      form.reset();
-      syncAnon();
+      const data = await res.json();
+      if(data.result === 'success'){
+        showMsg('애로사항이 정상적으로 접수되었습니다. (접수번호 ' + data.ticket + ')', 'ok');
+        form.reset();
+        syncAnon();
+      }else{
+        showMsg('접수에 실패했습니다. ' + (data.message || '잠시 후 다시 시도해 주세요.'), 'err');
+      }
     }catch(err){
-      showMsg('접수 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.', 'err');
+      showMsg('접수 중 오류가 발생했습니다. 네트워크 상태를 확인하고 다시 시도해 주세요.', 'err');
     }finally{
       submitBtn.disabled = false;
       submitBtn.textContent = '접수하기';
