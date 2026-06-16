@@ -8,19 +8,22 @@
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
 <style>
   :root{
-    --ink:#11203b;        /* 진남색 본문 */
-    --ink-soft:#41506b;
-    --line:#d6dceb;
-    --field:#f4f6fb;
+    --ink:#15233d;
+    --ink-soft:#5a6781;
+    --line:#e4e8f1;
+    --field:#f7f9fc;
     --paper:#ffffff;
-    --bg:#eef1f7;
-    --brand:#1f4e8c;      /* 브릿지 재단 남색 */
+    --bg:#eef1f6;
+    --brand:#1f4e8c;
     --brand-deep:#163a6b;
-    --gold:#8a8d93;       /* 로고 그레이 포인트 */
-    --ok-bg:#e7f3ec;
+    --brand-light:#3f6fb0;
+    --gold:#8a8d93;
+    --ok-bg:#eaf5ee;
     --ok-ink:#1f6b3b;
-    --err-bg:#fbecec;
+    --err-bg:#fcecec;
     --err-ink:#9b2c2c;
+    --radius:14px;
+    --shadow:0 18px 48px -24px rgba(22,58,107,.45);
   }
   *{box-sizing:border-box;}
   html{-webkit-text-size-adjust:100%;}
@@ -28,124 +31,139 @@
     margin:0;
     font-family:"Pretendard","Pretendard Variable",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
     color:var(--ink);
-    background:var(--bg);
-    line-height:1.6;
+    background:
+      radial-gradient(1200px 480px at 50% -180px, rgba(31,78,140,.10), transparent 70%),
+      var(--bg);
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
   }
+
   /* 상단 띠 */
   .topbar{
     background:var(--brand-deep);
-    color:#cdd9ea;
-    font-size:12.5px;
+    color:#c3d3ea;
+    font-size:12px;
     letter-spacing:.02em;
   }
   .topbar .wrap{
-    max-width:760px;margin:0 auto;padding:7px 22px;
+    max-width:780px;margin:0 auto;padding:8px 24px;
     display:flex;justify-content:space-between;gap:12px;
   }
-  .topbar a{color:#cdd9ea;text-decoration:none;}
 
-  header.masthead{
-    background:#fff;
-    color:var(--ink);
-    border-bottom:3px solid var(--brand);
-  }
+  /* 로고 헤더 */
+  header.masthead{ background:#fff; border-bottom:1px solid var(--line); }
   .masthead .wrap{
-    max-width:760px;margin:0 auto;padding:24px 22px;
-    display:flex;align-items:center;gap:20px;
+    max-width:780px;margin:0 auto;padding:20px 24px;
+    display:flex;align-items:center;
   }
-  .masthead img.logo{
-    flex:0 0 auto;height:64px;width:auto;display:block;
-  }
-  .masthead .titles{
-    border-left:1px solid var(--line);padding-left:20px;
-  }
-  .masthead h1{
-    margin:0;font-size:18px;font-weight:700;letter-spacing:.02em;color:var(--brand);
-  }
-  .masthead p{
-    margin:4px 0 0;font-size:13px;color:var(--ink-soft);font-weight:400;letter-spacing:.01em;
-  }
+  .masthead img.logo{ height:52px;width:auto;display:block; }
 
-  main{max-width:760px;margin:0 auto;padding:28px 22px 60px;}
-
-  .notice{
-    background:var(--paper);
-    border:1px solid var(--line);
-    border-left:4px solid var(--gold);
-    padding:16px 18px;
-    font-size:13.5px;color:var(--ink-soft);
-    margin-bottom:26px;
+  /* 히어로 */
+  .hero{
+    position:relative;overflow:hidden;
+    background:linear-gradient(135deg,#21528f 0%,#173b6c 60%,#122d54 100%);
+    color:#fff;
   }
-  .notice b{color:var(--ink);}
+  .hero .wrap{ max-width:780px;margin:0 auto;padding:40px 24px 56px;position:relative;z-index:2; }
+  .hero .eyebrow{
+    display:inline-block;font-size:12px;font-weight:600;letter-spacing:.14em;
+    color:#bcd2f0;text-transform:uppercase;margin:0 0 12px;
+    padding:5px 12px;border:1px solid rgba(255,255,255,.25);border-radius:999px;
+  }
+  .hero h1{ margin:0;font-size:30px;font-weight:800;letter-spacing:-.01em;line-height:1.3; }
+  .hero p{ margin:12px 0 0;font-size:15px;color:#d4e0f2;font-weight:400;max-width:30em; }
+  /* 다리(브릿지) 모티브 */
+  .hero .bridge{ position:absolute;left:0;right:0;bottom:-1px;width:100%;height:64px;opacity:.5;z-index:1; }
+
+  main{max-width:780px;margin:0 auto;padding:0 24px;}
 
   .card{
     background:var(--paper);
     border:1px solid var(--line);
-    border-radius:2px;
-    box-shadow:0 1px 0 rgba(20,40,80,.04);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    margin-top:-32px;position:relative;z-index:3;
+    overflow:hidden;
   }
   .card .card-head{
-    padding:18px 24px;border-bottom:1px solid var(--line);
+    padding:24px 30px 20px;border-bottom:1px solid var(--line);
+    background:linear-gradient(180deg,#fbfcfe,#fff);
   }
   .card .card-head h2{
-    margin:0;font-size:16px;font-weight:700;letter-spacing:.02em;
+    margin:0;font-size:18px;font-weight:700;letter-spacing:-.01em;
+    display:flex;align-items:center;gap:9px;
   }
-  .card .card-head span{
-    font-size:12.5px;color:var(--ink-soft);
+  .card .card-head h2::before{
+    content:"";width:4px;height:18px;border-radius:2px;background:var(--brand);
   }
-  form{padding:8px 24px 24px;}
+  .card .card-head span{ display:block;margin-top:7px;font-size:12.5px;color:var(--ink-soft); }
+  form{padding:6px 30px 30px;}
+
+  .notice{
+    margin:22px 0 4px;
+    background:#f3f7fc;
+    border:1px solid #dde8f5;
+    border-radius:10px;
+    padding:15px 17px;
+    font-size:13px;color:var(--ink-soft);line-height:1.6;
+  }
+  .notice b{color:var(--brand);}
 
   .field{margin-top:20px;}
   .field > label{
-    display:block;font-size:13.5px;font-weight:600;margin-bottom:7px;
+    display:block;font-size:13.5px;font-weight:600;margin-bottom:8px;letter-spacing:-.01em;
   }
-  .req{color:#c0392b;font-weight:700;margin-left:2px;}
+  .req{color:#d0454a;font-weight:700;margin-left:2px;}
   .hint{font-size:12px;color:var(--ink-soft);font-weight:400;margin-left:6px;}
 
   input[type=text],input[type=tel],input[type=email],select,textarea{
-    width:100%;padding:11px 13px;
+    width:100%;padding:13px 15px;
     border:1px solid var(--line);
     background:var(--field);
-    border-radius:3px;
+    border-radius:10px;
     font-size:14.5px;color:var(--ink);
     font-family:inherit;
-    transition:border-color .15s, background .15s;
+    transition:border-color .15s, background .15s, box-shadow .15s;
   }
+  input::placeholder,textarea::placeholder{color:#9aa6bd;}
   input:focus,select:focus,textarea:focus{
     outline:none;border-color:var(--brand);background:#fff;
-    box-shadow:0 0 0 3px rgba(29,78,128,.12);
+    box-shadow:0 0 0 4px rgba(31,78,140,.12);
   }
-  textarea{min-height:160px;resize:vertical;}
-  select{appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8'><path d='M1 1l5 5 5-5' fill='none' stroke='%2341506b' stroke-width='1.6'/></svg>");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px;}
+  textarea{min-height:168px;resize:vertical;line-height:1.6;}
 
   .anon-row{
-    margin-top:20px;padding:14px 16px;
-    background:var(--field);border:1px solid var(--line);border-radius:3px;
-    display:flex;align-items:flex-start;gap:11px;
+    margin-top:22px;padding:15px 17px;
+    background:var(--field);border:1px solid var(--line);border-radius:10px;
+    display:flex;align-items:flex-start;gap:12px;
   }
-  .anon-row input{margin-top:3px;width:17px;height:17px;flex:0 0 auto;accent-color:var(--brand);}
-  .anon-row label{font-size:13.5px;cursor:pointer;}
-  .anon-row label small{display:block;color:var(--ink-soft);font-size:12px;margin-top:2px;}
+  .anon-row input{margin-top:2px;width:18px;height:18px;flex:0 0 auto;accent-color:var(--brand);cursor:pointer;}
+  .anon-row label{font-size:13.5px;cursor:pointer;font-weight:600;}
+  .anon-row label small{display:block;color:var(--ink-soft);font-size:12px;margin-top:3px;font-weight:400;}
 
-  .agree-row{margin-top:18px;display:flex;align-items:flex-start;gap:10px;}
-  .agree-row input{margin-top:3px;width:16px;height:16px;flex:0 0 auto;accent-color:var(--brand);}
+  .agree-row{margin-top:22px;display:flex;align-items:flex-start;gap:10px;}
+  .agree-row input{margin-top:2px;width:17px;height:17px;flex:0 0 auto;accent-color:var(--brand);cursor:pointer;}
   .agree-row label{font-size:12.5px;color:var(--ink-soft);}
 
-  .actions{margin-top:24px;display:flex;gap:10px;align-items:center;}
+  .actions{margin-top:26px;display:flex;gap:14px;align-items:center;}
   button[type=submit]{
-    background:var(--brand);color:#fff;border:none;
-    padding:13px 30px;font-size:15px;font-weight:600;letter-spacing:.04em;
-    border-radius:3px;cursor:pointer;font-family:inherit;
-    transition:background .15s;
+    background:linear-gradient(135deg,#2358a0,#1a4078);
+    color:#fff;border:none;
+    padding:14px 34px;font-size:15px;font-weight:700;letter-spacing:.01em;
+    border-radius:11px;cursor:pointer;font-family:inherit;
+    box-shadow:0 10px 22px -10px rgba(31,78,140,.6);
+    transition:transform .12s, box-shadow .15s, filter .15s;
   }
-  button[type=submit]:hover{background:var(--brand-deep);}
-  button[type=submit]:disabled{opacity:.6;cursor:default;}
+  button[type=submit]:hover{filter:brightness(1.06);box-shadow:0 14px 26px -10px rgba(31,78,140,.7);}
+  button[type=submit]:active{transform:translateY(1px);}
+  button[type=submit]:disabled{opacity:.6;cursor:default;box-shadow:none;}
   .reset-btn{
     background:none;border:none;color:var(--ink-soft);
-    font-size:13px;cursor:pointer;text-decoration:underline;font-family:inherit;
+    font-size:13px;cursor:pointer;font-family:inherit;
   }
+  .reset-btn:hover{color:var(--brand);text-decoration:underline;}
 
-  .msg{margin-top:18px;padding:13px 16px;border-radius:3px;font-size:14px;display:none;}
+  .msg{margin-top:20px;padding:14px 17px;border-radius:10px;font-size:14px;display:none;font-weight:500;}
   .msg.show{display:block;}
   .msg.ok{background:var(--ok-bg);color:var(--ok-ink);border:1px solid #bfe0cb;}
   .msg.err{background:var(--err-bg);color:var(--err-ink);border:1px solid #ecc4c4;}
@@ -153,18 +171,20 @@
   .hidden-field{display:none;}
 
   footer{
-    max-width:760px;margin:0 auto;padding:0 22px 40px;
-    font-size:12px;color:var(--ink-soft);
+    max-width:780px;margin:0 auto;padding:30px 24px 48px;
+    font-size:12px;color:var(--ink-soft);text-align:center;
   }
-  footer .rule{height:1px;background:var(--line);margin-bottom:16px;}
+  footer .rule{height:1px;background:var(--line);margin-bottom:18px;}
+  footer b{color:var(--ink);font-weight:600;}
 
   @media (max-width:560px){
-    .masthead .wrap{gap:14px;padding:18px 16px;}
-    .masthead img.logo{height:48px;}
-    .masthead .titles{padding-left:14px;}
-    .masthead h1{font-size:15px;}
-    .masthead p{font-size:12px;}
-    form,.card .card-head{padding-left:16px;padding-right:16px;}
+    .masthead .wrap{padding:16px;}
+    .masthead img.logo{height:42px;}
+    .hero .wrap{padding:30px 18px 48px;}
+    .hero h1{font-size:23px;}
+    .hero p{font-size:14px;}
+    main{padding:0 14px;}
+    form,.card .card-head{padding-left:18px;padding-right:18px;}
   }
 </style>
 </head>
@@ -173,31 +193,45 @@
 <div class="topbar">
   <div class="wrap">
     <span>K-Mobility 브릿지 재단</span>
-    <span>접수 · 365일 24시간</span>
+    <span>온라인 접수 · 365일 24시간</span>
   </div>
 </div>
 
 <header class="masthead">
   <div class="wrap">
     <img class="logo" src="logo.png" alt="K-Mobility 브릿지 재단 Bridge Foundation">
-    <div class="titles">
-      <h1>자동차 부품업계 애로사항 접수</h1>
-      <p>현장의 어려움을 재단에 알려주세요. 함께 해결방안을 찾겠습니다.</p>
-    </div>
   </div>
 </header>
 
-<main>
-  <div class="notice">
-    접수된 애로사항은 <b>재단 담당자가 검토</b>하여 정책·사업에 참고합니다.
-    내용은 외부에 공개되지 않으니, 현장에서 겪고 계신 어려움을 편하게 작성해 주세요.
-    (개별 회신은 어려운 점 양해 부탁드립니다.)
+<section class="hero">
+  <div class="wrap">
+    <span class="eyebrow">Voice of the Industry</span>
+    <h1>자동차 부품업계 애로사항 접수</h1>
+    <p>현장에서 겪고 계신 어려움을 재단에 알려주세요. 업계의 목소리를 모아 정책·사업에 반영하겠습니다.</p>
   </div>
+  <svg class="bridge" viewBox="0 0 780 64" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M0 56 H780" stroke="#ffffff" stroke-width="2" fill="none"/>
+    <path d="M0 56 Q195 6 390 56 T780 56" stroke="#ffffff" stroke-width="2" fill="none"/>
+    <g stroke="#ffffff" stroke-width="1.2">
+      <line x1="70" y1="36" x2="70" y2="56"/><line x1="140" y1="22" x2="140" y2="56"/>
+      <line x1="210" y1="16" x2="210" y2="56"/><line x1="280" y1="22" x2="280" y2="56"/>
+      <line x1="350" y1="36" x2="350" y2="56"/><line x1="430" y1="36" x2="430" y2="56"/>
+      <line x1="500" y1="22" x2="500" y2="56"/><line x1="570" y1="16" x2="570" y2="56"/>
+      <line x1="640" y1="22" x2="640" y2="56"/><line x1="710" y1="36" x2="710" y2="56"/>
+    </g>
+  </svg>
+</section>
 
+<main>
   <div class="card">
     <div class="card-head">
       <h2>애로사항 접수서</h2>
       <span><span class="req">*</span> 표시는 필수 입력 항목입니다.</span>
+    </div>
+
+    <div class="notice" style="margin:22px 30px 0;">
+      접수된 애로사항은 <b>재단 담당자가 검토</b>하여 정책·사업에 참고하며, 내용은 외부에 공개되지 않습니다.
+      현장의 어려움을 편하게 작성해 주세요. <span style="white-space:nowrap;">(개별 회신은 어려운 점 양해 부탁드립니다.)</span>
     </div>
 
     <form id="petitionForm">
@@ -251,7 +285,8 @@
 
 <footer>
   <div class="rule"></div>
-  K-Mobility 브릿지 재단 · 본 창구는 접수 전용이며, 제출 내용은 재단 관리자에게 안전하게 전달·저장됩니다.
+  <b>K-Mobility 브릿지 재단</b><br>
+  본 창구는 접수 전용이며, 제출 내용은 재단 관리자에게 안전하게 전달·저장됩니다.
 </footer>
 
 <script>
