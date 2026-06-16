@@ -68,7 +68,7 @@
 
   /* 폼 카드 */
   .form-card{
-    margin:22px 0 0;
+    margin-top:-32px;position:relative;z-index:3;
     background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);
     overflow:hidden;
   }
@@ -201,13 +201,8 @@
 <section class="hero">
   <div class="wrap">
     <span class="eyebrow">Foundation Intake Desk</span>
-    <h1>협력사의 현장 목소리를<br>정돈된 데이터로 남깁니다.</h1>
-    <p>K-Mobility 브릿지 재단은 현장의 애로사항과 지원 요청을 분리해 접수하고, 축적된 내용을 재단 사업 검토의 기초 자료로 활용합니다.</p>
-    <ul class="principles">
-      <li>개별 민원 즉시 처리 창구가 아닙니다</li>
-      <li>반복되는 이슈일수록 검토 가치가 높습니다</li>
-      <li>애로사항과 지원 요청을 구분해 받습니다</li>
-    </ul>
+    <h1>협력사 애로·지원 요청 접수</h1>
+    <p>현장에서 겪고 계신 어려움과 필요한 지원을 재단에 알려주세요.</p>
   </div>
   <svg class="bridge" viewBox="0 0 880 64" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
     <path d="M0 56 H880" stroke="#ffffff" stroke-width="2" fill="none"/>
@@ -223,16 +218,6 @@
 </section>
 
 <main>
-  <section class="intro">
-    <p class="tag">접수 안내</p>
-    <h2>처음에 접수 유형을 먼저 선택해 주세요.</h2>
-    <div class="points">
-      <span>애로사항 접수 — 현재 겪는 부담과 문제를 기록합니다.</span>
-      <span>지원 요청 접수 — 필요한 지원 방향과 요구를 기록합니다.</span>
-      <span>구체적인 사례, 영향 범위, 반복 여부를 적을수록 좋습니다.</span>
-    </div>
-  </section>
-
   <form id="intakeForm" class="form-card" novalidate>
     <div class="form-head">
       <p class="tag">접수 폼</p>
