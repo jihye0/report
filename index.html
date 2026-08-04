@@ -218,6 +218,14 @@
 
 <main>
   <form id="intakeForm" class="form-card" novalidate>
+    <!-- 스팸 방지용 히든/허니팟 필드 (사용자 눈에는 보이지 않음) -->
+    <input type="hidden" id="startedAt" name="startedAt" value="">
+    <input type="hidden" id="requestId" name="requestId" value="">
+    <div style="position:absolute;left:-9999px;top:-9999px;width:1px;height:1px;overflow:hidden;" aria-hidden="true">
+      <label for="website">웹사이트(입력하지 마세요)</label>
+      <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+    </div>
+
     <div class="form-head">
       <p class="tag">접수 폼</p>
       <h2>협력사 접수</h2>
@@ -456,15 +464,17 @@
   // ────────────────────────────────────────────────────
 
   // 애로분야별 세부 유형
+  // ※ 반드시 Apps Script(Code.gs)의 CONFIG.ALLOWED_CATEGORIES 값과 1:1로 일치해야 합니다.
+  //   (여기 값이 다르면 서버가 "애로 분야와 세부 유형을 올바르게 선택해 주세요." 오류로 항상 거부합니다.)
   const ISSUE_DETAILS = {
-    "경영비용·수익성": ["원자재가 상승","에너지·물류비 상승","수익성 악화","고정비 부담","기타"],
-    "인력·노무": ["인력 채용난","숙련인력 부족","인건비 상승","노사 관계","외국인력","기타"],
-    "생산·품질·납기": ["설비 노후화","품질 불량·클레임","납기 대응","생산능력 부족","기타"],
-    "자금·결제·거래조건": ["자금 유동성","대금 결제 지연","담보·신용","거래조건 불리","기타"],
-    "기술개발·전환": ["R&D 역량 부족","미래차 전환 대응","기술인력 부족","특허·IP","기타"],
-    "ESG·환경·안전·규제": ["환경규제 대응","안전관리","탄소중립·에너지","인증 부담","기타"],
-    "판로·수출·마케팅": ["판로 확보","수출 애로","신규 거래처","마케팅 역량","기타"],
-    "협력구조·거래관행": ["납품단가","불공정 거래","다단계 구조","정보 비대칭","기타"],
+    "경영비용·수익성": ["인건비 상승","원자재·부품 단가 상승","전력비·물류비 부담","납품단가 미반영","수익성 악화","기타"],
+    "인력·노무": ["생산직 채용난","기술직 채용난","숙련인력 고령화","외국인 근로자 확보·관리","현장 교육·훈련 부족","기타"],
+    "생산·품질·납기": ["생산 차질","품질 대응 부담","납기 준수 어려움","설비 노후·가동률 저하","원재료 수급 불안정","기타"],
+    "자금·결제·거래조건": ["운영자금 부족","금리 부담","대금 지급 지연","선금·중도금 필요","거래조건 악화","기타"],
+    "기술개발·전환": ["전동화 전환 대응","신규 기술개발 부담","R&D 인력 부족","디지털·스마트공장 전환","사업전환 방향 불확실","기타"],
+    "ESG·환경·안전·규제": ["탄소배출 대응 부담","ESG 평가·공시 대응","산업안전·중대재해 대응","환경 규제 대응","행정·인증 부담","기타"],
+    "판로·수출·마케팅": ["국내 판로 확대","해외 전시·바이어 발굴","수출 통관·인증","공동 마케팅 필요","신규 시장 정보 부족","기타"],
+    "협력구조·거래관행": ["다단계 납품 구조 부담","단가 협상력 부족","원청·상위 협력사와 소통 어려움","불합리한 요구·관행","정보 비대칭","기타"],
     "기타": ["기타"]
   };
 
@@ -477,6 +487,18 @@
   const supportFields = $('supportFields');
   const issueCategory = $('issueCategory');
   const issueDetail = $('issueDetail');
+
+  // 스팸 방지용 시작시각/요청ID 채우기
+  function generateRequestId(){
+    if(window.crypto && typeof window.crypto.randomUUID === 'function'){
+      return window.crypto.randomUUID();
+    }
+    return 'req-' + Date.now() + '-' + Math.random().toString(36).slice(2, 10);
+  }
+  function markStarted(){
+    $('startedAt').value = String(Date.now());
+    $('requestId').value = generateRequestId();
+  }
 
   // 접수 유형 전환
   function getRequestType(){
@@ -534,11 +556,20 @@
   bindCounter($('title'), $('titleCounter'), 100);
   bindCounter($('detailDescription'), $('detailCounter'), 5000);
 
+  function resetCounters(){
+    $('titleCounter').textContent = '0 / ' + $('title').maxLength;
+    $('detailCounter').textContent = '0 / ' + $('detailDescription').maxLength;
+  }
+
   function showStatus(text, type){
     statusMsg.textContent = text;
     statusMsg.className = 'status-message show ' + type;
     statusMsg.scrollIntoView({behavior:'smooth', block:'center'});
   }
+
+  // 이메일/전화 형식 검증 (서버 측 검증 규칙과 동일)
+  function validEmail(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
+  function validPhone(v){ return /^[0-9+()\-\s]{8,20}$/.test(v); }
 
   // 검증
   function validate(){
@@ -560,7 +591,11 @@
       const contactable = form.querySelector('input[name="contactMode"]:checked').value === '연락 가능';
       if(contactable){
         if(!$('contactName').value.trim()) return '담당자명을 입력해 주세요.';
-        if(!$('contactEmail').value.trim()) return '이메일을 입력해 주세요.';
+        const email = $('contactEmail').value.trim();
+        if(!email) return '이메일을 입력해 주세요.';
+        if(!validEmail(email)) return '이메일 형식이 올바르지 않습니다.';
+        const phone = $('contactPhone').value.trim();
+        if(phone && !validPhone(phone)) return '휴대전화 번호 형식이 올바르지 않습니다.';
       }
     }
     if(!$('privacyConsent').checked) return '개인정보 수집·이용에 동의해 주세요.';
@@ -573,7 +608,9 @@
     const err = validate();
     if(err){ showStatus(err, 'err'); return; }
 
-    const supportAreas = Array.from(form.querySelectorAll('input[name="supportAreas"]:checked')).map(el=>el.value).join(', ');
+    // 지원 요청 분류는 배열로 전송해야 서버(Code.gs)의 request.list()가 올바르게 인식합니다.
+    // (쉼표로 합친 문자열로 보내면 복수 선택 시 항상 검증에 실패합니다.)
+    const supportAreas = Array.from(form.querySelectorAll('input[name="supportAreas"]:checked')).map(el=>el.value);
     const anon = isAnon();
     const contactable = !anon && form.querySelector('input[name="contactMode"]:checked').value === '연락 가능';
 
@@ -595,7 +632,12 @@
       department:    contactable ? $('department').value.trim() : '',
       contactEmail:  contactable ? $('contactEmail').value.trim() : '',
       contactPhone:  contactable ? $('contactPhone').value.trim() : '',
-      privacyConsent:'Y'
+      privacyConsent:'Y',
+      // 스팸 방지용 필드 (Code.gs의 doPost에서 검증)
+      website:       $('website').value.trim(),
+      startedAt:     $('startedAt').value,
+      requestId:     $('requestId').value,
+      submissionMode:'json'
     };
 
     submitBtn.disabled = true;
@@ -610,10 +652,6 @@
       if(data.result === 'success'){
         showStatus('정상적으로 접수되었습니다. (접수번호 ' + data.ticket + ') 소중한 의견 감사합니다.', 'ok');
         form.reset();
-        issueDetail.innerHTML = '<option value="">먼저 구분을 선택해 주세요</option>';
-        issueDetail.disabled = true;
-        syncRequestType(); syncContact(); syncAnon();
-        bindCounter($('title'), $('titleCounter'), 100);
       }else{
         showStatus('접수에 실패했습니다. ' + (data.message || '잠시 후 다시 시도해 주세요.'), 'err');
       }
@@ -625,13 +663,22 @@
     }
   });
 
-  // 초기화
+  // 초기화 (초기화 버튼 클릭 또는 접수 성공 후 form.reset() 호출 시 모두 발생)
+  form.addEventListener('reset', ()=>setTimeout(()=>{
+    syncRequestType();
+    syncContact();
+    syncAnon();
+    issueDetail.innerHTML = '<option value="">먼저 구분을 선택해 주세요</option>';
+    issueDetail.disabled = true;
+    resetCounters();
+    markStarted();
+  }, 0));
+
+  // 최초 로드시 초기화
   syncRequestType();
   syncContact();
   syncAnon();
-  // reset 버튼 후 상태 동기화
-  form.addEventListener('reset', ()=>setTimeout(()=>{ syncRequestType(); syncContact(); syncAnon();
-    issueDetail.innerHTML = '<option value="">먼저 구분을 선택해 주세요</option>'; issueDetail.disabled = true; }, 0));
+  markStarted();
 </script>
 </body>
 </html>
