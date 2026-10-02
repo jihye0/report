@@ -642,21 +642,35 @@
 
     submitBtn.disabled = true;
     submitBtn.textContent = '접수 중…';
+    // 1단계: 서버로 전송 (여기서 실패하면 요청이 서버에 도달하지 못한 것)
+    let res;
     try{
-      const res = await fetch(SCRIPT_URL, {
+      res = await fetch(SCRIPT_URL, {
         method:'POST',
         headers:{'Content-Type':'text/plain;charset=utf-8'},
         body: JSON.stringify(payload)
       });
+    }catch(err){
+      showStatus('접수 중 오류가 발생했습니다. 네트워크 상태를 확인하고 다시 시도해 주세요.', 'err');
+      submitBtn.disabled = false;
+      submitBtn.textContent = '접수하기';
+      return;
+    }
+
+    // 2단계: 응답 해석 (전송은 됐지만 응답을 읽지 못하면 이미 접수됐을 수 있음)
+    try{
       const data = await res.json();
       if(data.result === 'success'){
         showStatus('정상적으로 접수되었습니다. (접수번호 ' + data.ticket + ') 소중한 의견 감사합니다.', 'ok');
         form.reset();
+      }else if((data.message || '').indexOf('동일한 내용') !== -1){
+        // 서버에 같은 내용이 이미 기록되어 있는 경우 → 실패가 아니라 접수 완료로 안내
+        showStatus('이미 접수된 내용입니다. 다시 제출하실 필요가 없습니다. 소중한 의견 감사합니다.', 'ok');
       }else{
         showStatus('접수에 실패했습니다. ' + (data.message || '잠시 후 다시 시도해 주세요.'), 'err');
       }
     }catch(err){
-      showStatus('접수 중 오류가 발생했습니다. 네트워크 상태를 확인하고 다시 시도해 주세요.', 'err');
+      showStatus('접수 결과를 확인하지 못했습니다. 접수가 이미 완료되었을 수 있으니, 1~2분 뒤 같은 내용으로 한 번만 다시 제출해 주세요. 이미 접수된 경우 "이미 접수된 내용"으로 안내됩니다.', 'err');
     }finally{
       submitBtn.disabled = false;
       submitBtn.textContent = '접수하기';
